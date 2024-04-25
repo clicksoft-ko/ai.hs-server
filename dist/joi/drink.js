@@ -5,7 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DrinkSchema = void 0;
 const joi_1 = __importDefault(require("joi"));
-const interfaces_1 = require("health-src-shared/interfaces");
+const interfaces_1 = require("health-screening-shared/interfaces");
 const DrinkingFrequencySchema = joi_1.default.object({
     cup: joi_1.default.number().default(0),
     bottle: joi_1.default.number().default(0),

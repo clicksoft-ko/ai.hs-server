@@ -8,7 +8,7 @@ import {
   ISmoking,
   IDrink,
   IActivity,
-} from "health-src-shared/interfaces";
+} from "health-screening-shared/interfaces";
 
 export const QuestionnaireSchema = Joi.object<{
   history: IHistory;

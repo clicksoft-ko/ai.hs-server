@@ -14,9 +14,9 @@ importers:
       express:
         specifier: ^4.19.2
         version: 4.19.2
-      health-src-shared:
-        specifier: ^0.0.11
-        version: 0.0.11
+      health-screening-shared:
+        specifier: ^0.0.1
+        version: 0.0.1
       joi:
         specifier: ^17.13.0
         version: 17.13.0
@@ -313,8 +313,8 @@ packages:
     resolution: {integrity: sha512-0hJU9SCPvmMzIBdZFqNPXWa6dqh7WdH0cII9y+CyS8rG3nL48Bclra9HmKhVVUHyPWNH5Y7xDwAB7bfgSjkUMQ==}
     engines: {node: '>= 0.4'}
 
-  health-src-shared@0.0.11:
-    resolution: {integrity: sha512-3N+lEv/7/0cXTkC0kawnDY9N9ytiEGehKev66oN0gXswH26BvIrL425Fa24rAI52OWErfvwTbG99p0817xfX9g==}
+  health-screening-shared@0.0.1:
+    resolution: {integrity: sha512-+0pbw52DvNL+BziIgbHFaVF8joCSK6e1Q4S393M4Yi+AwJeGbimM4YZZB53riymLRd8XYMkYCEBvbOT+dirOYg==}
 
   http-errors@2.0.0:
     resolution: {integrity: sha512-FtwrG/euBzaEjYeRqOgly7G0qviiXoJWnvEH2Z1plBdXgbyjv34pHTSb9zoeHMyDy33+DWy5Wt9Wo+TURtOYSQ==}
@@ -868,7 +868,7 @@ snapshots:
     dependencies:
       function-bind: 1.1.2
 
-  health-src-shared@0.0.11: {}
+  health-screening-shared@0.0.1: {}
 
   http-errors@2.0.0:
     dependencies:

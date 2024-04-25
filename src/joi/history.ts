@@ -4,7 +4,7 @@ import {
   IHistoryN1,
   IHistoryN1Result,
   IHistoryN2,
-} from "health-src-shared/interfaces";
+} from "health-screening-shared/interfaces";
 
 const EHistoryN3 = {
   yes: 1,

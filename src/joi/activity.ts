@@ -1,5 +1,5 @@
 import Joi from "joi";
-import { IActivity, IActivityTerm } from "health-src-shared/interfaces";
+import { IActivity, IActivityTerm } from "health-screening-shared/interfaces";
 
 const ActiveTermSchema = Joi.object<IActivityTerm>({
   hours: Joi.number().min(1).max(23).required(),

@@ -13,14 +13,6 @@ app.use("/questionnare", questionnareRouter);
 
 app.use(errorHandler);
 
-app.get("/_healthcheck", (req: Request, res: Response) => {
-  res.json({ uptime: process.uptime() });
-});
-
-app.get("/areWeDebugging", (req: Request, res: Response) => {
-  res.json({ hellYeah: true });
-});
-
 app.listen(8000, () => {
   console.log("listen 8000");
 });

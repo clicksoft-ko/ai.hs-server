@@ -3,7 +3,7 @@ import {
   ISmoking,
   ISmokingResult,
   ISmokingTerm,
-} from "health-src-shared/interfaces";
+} from "health-screening-shared/interfaces";
 
 const ISmokingN6d1 = {
   no: 0,

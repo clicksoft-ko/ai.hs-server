@@ -22,7 +22,7 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.19.2",
-    "health-src-shared": "^0.0.11",
+    "health-screening-shared": "^0.0.1",
     "joi": "^17.13.0"
   }
 }
