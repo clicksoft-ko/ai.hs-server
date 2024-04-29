@@ -2,7 +2,7 @@
   "compilerOptions": {
     // "declaration": true,
     // "emitDeclarationOnly": true,
-    "isolatedModules": true, 
+    "isolatedModules": true,
     "esModuleInterop": true,
     "removeComments": true,
     "emitDecoratorMetadata": true,
@@ -16,11 +16,12 @@
     "outDir": "./dist",
     "allowJs": true,
     "lib": ["dom", "es6"],
-    "baseUrl": "./src",
-    "paths": {
-      "@/*": ["./*"]
-    }
+    // "baseUrl": "./src",
+    // "lib": ["dom", "dom.iterable", "esnext"],
+    "skipLibCheck": true,
+    "noEmit": true,
+    "resolveJsonModule": true
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "**/env.d.ts"],
   "exclude": ["node_modules", "**/*.test.ts"]
 }

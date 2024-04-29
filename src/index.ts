@@ -1,18 +1,16 @@
-import express, { Request, Response } from "express";
-import { questionnareRouter } from "./routes/questionnare-router";
-import { errorHandler } from "./middlewares/error-handler";
-import cors from "cors";
+require("dotenv").config();
+import { app } from "./app";
+import mongoose from "mongoose";
 
-const app = express();
+const start = async () => {
+  try {
+    await mongoose.connect(process.env.MONGO_URI!);
+  } catch (err) {
+    console.log("몽고디비 연결 실패", err);
+  }
+  app.listen(8000, () => {
+    console.log("listen 8000");
+  });
+};
 
-app.use(cors());
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
-
-app.use("/questionnare", questionnareRouter);
-
-app.use(errorHandler);
-
-app.listen(8000, () => {
-  console.log("listen 8000");
-});
+start();
