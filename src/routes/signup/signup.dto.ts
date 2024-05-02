@@ -8,7 +8,7 @@ export interface SignupDto {
 }
 
 export const signupSchema = Joi.object({
-  userId: Joi.string().trim().required().messages({
+  userId: Joi.string().lowercase().trim().required().messages({
     "string.empty": `아이디를 입력하세요.`,
   }),
   password: Joi.string().required().messages({

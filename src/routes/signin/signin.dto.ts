@@ -6,6 +6,6 @@ export interface SigninDto {
 }
 
 export const signinSchema = Joi.object<SigninDto>({
-  userId: Joi.string().trim().required(),
+  userId: Joi.string().lowercase().trim().required(),
   password: Joi.string().required(),
 });

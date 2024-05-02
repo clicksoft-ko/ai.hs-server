@@ -5,6 +5,7 @@ import { BadRequestError } from "../../errors/bad-request-error";
 import { SigninDto, signinSchema } from "./signin.dto";
 import { validateBody, validateRequest } from "../../middlewares/validate-body";
 import bcrypt from "bcrypt";
+import Joi from "joi";
 
 const router = Router();
 
