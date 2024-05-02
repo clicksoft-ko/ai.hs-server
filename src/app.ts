@@ -16,7 +16,11 @@ app.set("trust proxy", true);
 
 app.use(
   cors({
-    origin: ["http://localhost:3020", "https://localhost:3020"],
+    origin: [
+      "http://localhost:3020",
+      "https://localhost:3020",
+      "https://hs.click-soft.co.kr",
+    ],
     credentials: true,
   })
 );
