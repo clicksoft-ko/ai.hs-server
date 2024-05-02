@@ -11,7 +11,10 @@ export class SocketIOServer {
 
   constructor(app: Express) {
     this.server = createServer(app);
-    this.io = new Server(this.server);
+    this.io = new Server(this.server, {
+      path: "/api/socket.io",
+      cors: { origin: ["https://hs.click-soft.co.kr"], credentials: true },
+    });
     this.handleConnection();
   }
 
