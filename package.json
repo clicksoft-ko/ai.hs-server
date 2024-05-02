@@ -6,7 +6,7 @@
     "start:dev": "nodemon ./src/index.ts",
     "start:debug": "nodemon --inspect src/index.ts",
     "deploy:prod": "npm run build && pm2 startOrRestart ecosystem.prod.config.js --env prod",
-    "build": "tsc"
+    "build": "tsc -p . && tsc-alias"
   },
   "keywords": [],
   "author": "",
@@ -21,6 +21,7 @@
     "@types/node": "^20.12.7",
     "nodemon": "^3.1.0",
     "ts-node": "^10.9.2",
+    "tsc-alias": "^1.8.8",
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.4.5"
   },

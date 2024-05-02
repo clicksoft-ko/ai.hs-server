@@ -1,26 +1,19 @@
 {
   "compilerOptions": {
-    // "declaration": true,
-    // "emitDeclarationOnly": true,
-    "isolatedModules": true,
-    "esModuleInterop": true,
-    "removeComments": true,
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "allowSyntheticDefaultImports": true,
-    "strict": true,
-    "incremental": true,
-    "module": "node16",
-    "target": "ESNext",
-    "sourceMap": true,
-    "outDir": "./dist",
-    "allowJs": true,
-    "lib": ["dom", "es6"],
-    // "baseUrl": "./src",
-    // "lib": ["dom", "dom.iterable", "esnext"],
-    "skipLibCheck": true,
-    "noEmit": true,
-    "resolveJsonModule": true,
+     /* Language and Environment */
+     "target": "es2016",
+
+     /* Modules */
+     "module": "node16",
+     "outDir": "./dist",
+     "rootDir": "./src",
+     "strict": true,
+    //  "moduleResolution": "node",
+     "esModuleInterop": true,
+     "emitDecoratorMetadata": true,
+     "experimentalDecorators": true,
+     "noImplicitReturns": false,
+     "strictPropertyInitialization": false,
     "paths": {
       "@/*": ["./src/*"],
     }

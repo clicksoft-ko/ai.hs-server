@@ -11,9 +11,9 @@ const start = async () => {
   } catch (err) {
     console.log("몽고디비 연결 실패", err);
   }
-
-  socketServer.listen(4020, () => {
-    console.log("listen 4020");
+  const port = +process.env.PORT!;
+  socketServer.listen(port, () => {
+    console.log(`listen ${port}~~`);
   });
 };
 
