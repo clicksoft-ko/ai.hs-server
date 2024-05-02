@@ -1,7 +1,7 @@
 module.exports = {
   apps: [
     {
-      name: "health-screening-backend",
+      name: "hs-backend",
       exec_mode: "cluster",
       instances: 1,
       script: "dist/index.js",
