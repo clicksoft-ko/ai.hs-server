@@ -1,6 +1,6 @@
 import express from "express";
 import "express-async-errors";
-import { questionnareRouter } from "./routes/questionnaire/questionnare-router";
+import { questionnareRouter as questionnaireRouter } from "./routes/questionnaire/questionnare-router";
 import { errorHandler } from "./middlewares/error-handler";
 import cors from "cors";
 import cookieSession from "cookie-session";
@@ -11,6 +11,7 @@ import { signinRouter } from "./routes/signin/signin";
 import cookieParser from "cookie-parser";
 
 const app = express();
+
 app.set("trust proxy", true);
 
 app.use(
@@ -29,7 +30,7 @@ app.use(
   })
 );
 
-app.use("/api/questionnare", questionnareRouter);
+app.use("/api/questionnaire", questionnaireRouter);
 app.use("/api/signin", signinRouter);
 app.use("/api/signup", signupRouter);
 app.use("/api/signout", signoutRouter);

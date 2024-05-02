@@ -5,6 +5,7 @@
   "scripts": {
     "start:dev": "nodemon ./src/index.ts",
     "start:debug": "nodemon --inspect src/index.ts",
+    "deploy:prod": "npm run build && pm2 startOrRestart ecosystem.prod.config.js --env prod",
     "build": "tsc"
   },
   "keywords": [],
@@ -20,6 +21,7 @@
     "@types/node": "^20.12.7",
     "nodemon": "^3.1.0",
     "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0",
     "typescript": "^5.4.5"
   },
   "dependencies": {
@@ -31,9 +33,10 @@
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "express-async-errors": "^3.1.1",
-    "health-screening-shared": "^0.0.2",
+    "health-screening-shared": "^0.0.44",
     "joi": "^17.13.0",
     "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.3.2"
+    "mongoose": "^8.3.2",
+    "socket.io": "^4.7.5"
   }
 }

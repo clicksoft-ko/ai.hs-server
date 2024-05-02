@@ -1,6 +1,9 @@
 require("dotenv").config();
-import { app } from "./app";
 import mongoose from "mongoose";
+import { SocketIOServer } from "./socket-io/socket-io-server";
+import { app } from "./app";
+
+const socketServer = new SocketIOServer(app);
 
 const start = async () => {
   try {
@@ -8,8 +11,9 @@ const start = async () => {
   } catch (err) {
     console.log("몽고디비 연결 실패", err);
   }
-  app.listen(8000, () => {
-    console.log("listen 8000");
+
+  socketServer.listen(4020, () => {
+    console.log("listen 4020");
   });
 };
 

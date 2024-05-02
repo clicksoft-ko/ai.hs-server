@@ -2,9 +2,9 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "Debug Express",
       "type": "node",
       "request": "attach",
-      "name": "Debug Express",
       "restart": true,
       "port": 9229
     }

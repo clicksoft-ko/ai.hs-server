@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 
 interface UserPayload {
   userId: string;
+  roomKey: string;
 }
 
 declare global {

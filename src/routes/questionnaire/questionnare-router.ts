@@ -1,9 +1,9 @@
 import { Router, Request, Response } from "express";
-import { validateBody, validateRequest } from "../../middlewares/validate-body";
 import {
   IQuestionnaireDto,
   QuestionnaireSchema,
 } from "./dto/questionnaire.dto";
+import { validateBody, validateRequest } from "@/middlewares/validate-body";
 
 const router = Router();
 

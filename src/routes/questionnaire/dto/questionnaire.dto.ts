@@ -5,10 +5,12 @@ import {
   IDrink,
   IActivity,
 } from "health-screening-shared/interfaces";
-import { HistorySchema } from "../../_joi/history";
-import { SmokingSchema } from "../../_joi/smoking";
-import { DrinkSchema } from "../../_joi/drink";
-import { ActivitySchema } from "../../_joi/activity";
+import {
+  ActivitySchema,
+  DrinkSchema,
+  HistorySchema,
+  SmokingSchema,
+} from "health-screening-shared/joi";
 
 export interface IQuestionnaireDto {
   history: IHistory;
