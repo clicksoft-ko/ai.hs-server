@@ -38,7 +38,7 @@ app.use(
   })
 );
 
-app.use("/swagger", swaggerUi.serve, swaggerUi.setup(swaggerFile));
+app.use("/api/swagger", swaggerUi.serve, swaggerUi.setup(swaggerFile));
 app.use("/api/questionnaire", questionnaireRouter);
 app.use("/api/signin", signinRouter);
 app.use("/api/signup", signupRouter);

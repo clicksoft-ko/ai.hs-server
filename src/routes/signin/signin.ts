@@ -5,7 +5,6 @@ import { BadRequestError } from "../../errors/bad-request-error";
 import { SigninDto, signinSchema } from "./signin.dto";
 import { validateBody, validateRequest } from "../../middlewares/validate-body";
 import bcrypt from "bcrypt";
-import Joi from "joi";
 
 const router = Router();
 
@@ -26,7 +25,7 @@ router.post(
       throw new BadRequestError(errorMessage, "_form");
     }
 
-    const expiresInMinutes = 1;
+    const expiresInMinutes = 60;
     const userJwt = jwt.sign({ userId: user.userId, roomKey: user.roomKey }, process.env.JWT_KEY!, {
       expiresIn: expiresInMinutes * 60,
     });
