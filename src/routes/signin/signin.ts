@@ -28,7 +28,7 @@ router.post(
 
     const expiresInMinutes = 1;
     const userJwt = jwt.sign({ userId: user.userId, roomKey: user.roomKey }, process.env.JWT_KEY!, {
-      expiresIn: expiresInMinutes * 10,
+      expiresIn: expiresInMinutes * 60,
     });
     // req.session = { jwt: userJwt };
     res.cookie("jwt", userJwt, {
