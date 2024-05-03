@@ -5,6 +5,7 @@
   "scripts": {
     "start:dev": "nodemon ./src/index.ts",
     "start:debug": "nodemon --inspect src/index.ts",
+    "swagger": "npx ts-node ./src/swagger/swagger.ts",
     "deploy:prod": "npm run build && pm2 startOrRestart ecosystem.prod.config.js --env prod",
     "build": "tsc -p . && tsc-alias"
   },
@@ -19,7 +20,10 @@
     "@types/express": "^4.17.21",
     "@types/jsonwebtoken": "^9.0.6",
     "@types/node": "^20.12.7",
+    "@types/swagger-ui-express": "^4.1.6",
     "nodemon": "^3.1.0",
+    "swagger-autogen": "^2.23.7",
+    "swagger-ui-express": "^5.0.0",
     "ts-node": "^10.9.2",
     "tsc-alias": "^1.8.8",
     "tsconfig-paths": "^4.2.0",

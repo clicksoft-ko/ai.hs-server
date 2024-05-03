@@ -26,9 +26,9 @@ router.post(
       throw new BadRequestError(errorMessage, "_form");
     }
 
-    const expiresInMinutes = 60;
+    const expiresInMinutes = 1;
     const userJwt = jwt.sign({ userId: user.userId, roomKey: user.roomKey }, process.env.JWT_KEY!, {
-      expiresIn: expiresInMinutes * 60,
+      expiresIn: expiresInMinutes * 10,
     });
     // req.session = { jwt: userJwt };
     res.cookie("jwt", userJwt, {
