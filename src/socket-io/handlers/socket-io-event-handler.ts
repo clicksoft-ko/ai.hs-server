@@ -5,12 +5,37 @@ import { JoinRoomDto } from "../models/join-room.dto";
 import Joi from "joi";
 
 export class SocketIOEventHandler {
-  constructor(private io: Server, private socket: Socket) {}
+  constructor(private io: Server, private socket: Socket) { }
 
-  async joinRoomEvent(data: JoinRoomDto, ack: (ack: boolean) => void) {
-    this.socket.join(data.key);
+  async joinRoomEvent(data: JoinRoomDto, ack: (ack: any) => void) {
+    const rooms = Array.from(this.socket.rooms).slice(1);
+    const existRoom = rooms.some(room => room === data.key)
+    const anotherRooms = rooms.filter(room => room != data.key)
 
-    ack?.(true);
+    // 클라이언트가 방이 변경된 경우 이전 방은 나간다.
+    anotherRooms?.forEach(room => {
+      this.io.to(room).emit("leaveRoom", { room })
+      this.socket.leave(room)
+    });
+
+    // 클라이언트가 방이 없는 경우 방에 들어간다.
+    const emitData = { room: data.key }
+    if (!existRoom) {
+      this.io.to(data.key).emit("leaveRoom", emitData); // 다른 클라이언트에 해당 방이 존재하면 나간다고 알림.
+      this.io.socketsLeave(data.key); // 다른 클라이언트에 해당 방이 존재하면 나간다.
+      this.socket.join(data.key);
+    }
+
+    ack?.(emitData);
+  }
+
+  getResult(result: any) {
+    const resultData = result?.[0];
+    if (!resultData) {
+      throw new Error("클라이언트로부터 요청을 실패했어요.")
+    }
+
+    return resultData;
   }
 
   async saveQuestionnaireEvent(
@@ -35,34 +60,43 @@ export class SocketIOEventHandler {
         .timeout(10000)
         .emitWithAck("saveQuestionnaire", data);
 
-      console.log("result", result);
+      const resultData = this.getResult(result)
 
-      ack?.({ status: "success" });
-    });
+      ack?.({ status: "success", data: resultData });
+    }, ack);
   }
 
-  async getReceptionPatientsEvent(
-    data: sock.GetReceptionPatientsArgs,
-    ack: (ack: sock.GetReceptionPatientsResult) => void
+  async brokerEvent(
+    ev: string,
+    data: GetQuestionnaireArgs,
+    ack: (ack: any) => void
   ) {
     await this.catchWrapper(async () => {
       const result = await this.io
         .to(data.key)
         .timeout(10000)
-        .emitWithAck("getReceptionPatients", data);
+        .emitWithAck(ev, data);
 
-      const resultData = result?.[0];
+      const resultData = this.getResult(result)
       console.log("result", resultData);
 
       ack?.({ status: "success", data: resultData });
-    });
+    }, ack);
   }
 
-  async catchWrapper(callback: () => Promise<void>) {
+  async catchWrapper(callback: () => Promise<void>, ack: (ack: sock.EmitResultBase<any>) => void) {
     try {
       await callback();
     } catch (error: any) {
-      console.log("Socket.IO Error: ", error.message);
+      ack?.({ status: "error", message: error.message });
     }
   }
+}
+
+
+class GetQuestionnaireArgs {
+  key: string;
+  eiAuto: number;
+  kind: sock.EQuestionnaireKind;
+  type: sock.EQuestionnaireType;
 }

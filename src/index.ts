@@ -6,7 +6,10 @@ import { app } from "./app";
 const socketServer = new SocketIOServer(app);
 
 const start = async () => {
-  try {
+  console.log(process.env.JWT_KEY);
+  console.log(process.env.MONGO_URI);
+  
+  try { 
     await mongoose.connect(process.env.MONGO_URI!);
   } catch (err) {
     console.log("몽고디비 연결 실패", err);

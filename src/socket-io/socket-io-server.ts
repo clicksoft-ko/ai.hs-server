@@ -20,22 +20,21 @@ export class SocketIOServer {
 
   handleConnection() {
     this.io.on("connection", (socket) => {
-      const eventHandler = new SocketIOEventHandler(this.io, socket);
+      const evHandler = new SocketIOEventHandler(this.io, socket);
 
       this.io.on("error", (error) => {
         console.log("socketio error: ", error);
       });
 
-      socket.on("joinRoom", eventHandler.joinRoomEvent.bind(eventHandler));
+      socket.on("joinRoom", evHandler.joinRoomEvent.bind(evHandler));
 
-      socket.on(
-        "saveQuestionnaire",
-        eventHandler.saveQuestionnaireEvent.bind(eventHandler)
-      );
-      socket.on(
-        "getReceptionPatients",
-        eventHandler.getReceptionPatientsEvent.bind(eventHandler)
-      );
+      socket.on(Ev.SaveQuestionnaire, evHandler.saveQuestionnaireEvent.bind(evHandler));
+
+      const onBroker = (ev: string) => socket.on(ev, evHandler.brokerEvent.bind(evHandler, ev));
+      onBroker(Ev.GetQuestionnaire);
+      onBroker(Ev.GetReceptionPatients);
+      onBroker(Ev.SaveLifestyle);
+      onBroker(Ev.GetLifestyle);
 
       console.log(`${socket.id} user connected`);
       socket.on("disconnect", () => {
@@ -47,4 +46,12 @@ export class SocketIOServer {
   listen(port: number, listeningListener?: (() => void) | undefined) {
     this.server.listen(port, listeningListener);
   }
+}
+
+enum Ev {
+  GetQuestionnaire = "getQuestionnaire",
+  SaveQuestionnaire = "saveQuestionnaire",
+  SaveLifestyle = "saveLifestyle",
+  GetReceptionPatients = "getReceptionPatients",
+  GetLifestyle = "getLifestyle"
 }
