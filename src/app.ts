@@ -9,8 +9,10 @@ import { currentUserRouter } from "./routes/current-user.ts/current-user";
 import { signoutRouter } from "./routes/signout/signout";
 import { signinRouter } from "./routes/signin/signin";
 import cookieParser from "cookie-parser";
-import swaggerUi  from 'swagger-ui-express'
+import swaggerUi from 'swagger-ui-express'
 import swaggerFile from './swagger/swagger-release.json'
+import { checkPwRouter } from "./routes/check-pw/check-pw";
+import { settingsRouter } from "./routes/settings/settings";
 
 // const swaggerFile = require("../swagger/swagger-output");
 
@@ -43,6 +45,8 @@ app.use("/api/questionnaire", questionnaireRouter);
 app.use("/api/signin", signinRouter);
 app.use("/api/signup", signupRouter);
 app.use("/api/signout", signoutRouter);
+app.use("/api/checkpw", checkPwRouter);
+app.use("/api/settings", settingsRouter);
 app.use("/api/currentuser", currentUserRouter);
 
 app.use(errorHandler);

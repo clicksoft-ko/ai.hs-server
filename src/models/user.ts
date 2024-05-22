@@ -1,23 +1,26 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
+import { SettingsDoc } from "./settings";
 
 export interface UserAttrs {
   userId: string;
   password: string;
   roomKey: string;
+  settings?: SettingsDoc;
 }
 
 export interface UserModel extends mongoose.Model<UserDoc> {
   build(attrs: UserAttrs): UserDoc;
 }
 
-interface UserDoc extends mongoose.Document, UserAttrs {}
+interface UserDoc extends mongoose.Document, UserAttrs { }
 
 const userSchema = new mongoose.Schema<UserAttrs, UserModel>(
   {
     userId: { type: String, required: true },
     password: { type: String, required: true },
     roomKey: { type: String, required: true },
+    settings: { type: mongoose.Schema.Types.ObjectId, ref: "Settings" }
   },
   {
     toJSON: {
