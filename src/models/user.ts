@@ -6,6 +6,7 @@ export interface UserAttrs {
   userId: string;
   password: string;
   roomKey: string;
+  admin?: boolean;
   settings?: SettingsDoc;
 }
 
@@ -20,6 +21,7 @@ const userSchema = new mongoose.Schema<UserAttrs, UserModel>(
     userId: { type: String, required: true },
     password: { type: String, required: true },
     roomKey: { type: String, required: true },
+    admin: { type: Boolean, required: false },
     settings: { type: mongoose.Schema.Types.ObjectId, ref: "Settings" }
   },
   {

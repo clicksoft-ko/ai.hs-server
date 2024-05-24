@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken";
 interface UserPayload {
   userId: string;
   roomKey: string;
+  admin?: boolean;
 }
 
 declare global {
@@ -29,7 +30,7 @@ export const currentUser = (
     const payload = jwt.verify(token, process.env.JWT_KEY!);
 
     req.currentUser = payload as UserPayload;
-  } catch (err) {}
+  } catch (err) { }
 
   next();
 };

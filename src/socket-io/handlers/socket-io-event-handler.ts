@@ -61,7 +61,9 @@ export class SocketIOEventHandler {
         .emitWithAck("saveQuestionnaire", data);
 
       const resultData = this.getResult(result)
-
+      if (resultData.status === 'error') {
+        ack?.(resultData);
+      }
       ack?.({ status: "success", data: resultData });
     }, ack);
   }
@@ -77,8 +79,10 @@ export class SocketIOEventHandler {
         .timeout(10000)
         .emitWithAck(ev, data);
 
-      const resultData = this.getResult(result)
-      console.log("result", resultData);
+      const resultData = this.getResult(result);
+      if (resultData?.status === 'error') {
+        throw new Error(resultData?.message)
+      }
 
       ack?.({ status: "success", data: resultData });
     }, ack);
