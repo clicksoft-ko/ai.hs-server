@@ -4,7 +4,7 @@ export interface SignupDto {
   userId: string;
   password: string;
   roomKey: string;
-  accountKey: string;
+  managerCode: string;
 }
 
 export const signupSchema = Joi.object({
@@ -17,7 +17,7 @@ export const signupSchema = Joi.object({
   roomKey: Joi.string().required().messages({
     "string.empty": `연결 코드를 입력하세요.`,
   }),
-  accountKey: Joi.string().required().messages({
+  managerCode: Joi.string().required().messages({
     "string.empty": `관리자 코드를 입력하세요.`,
   }),
 }).options({ abortEarly: false });

@@ -13,7 +13,7 @@ import swaggerUi from 'swagger-ui-express'
 import swaggerFile from './swagger/swagger-release.json'
 import { checkPwRouter } from "./routes/check-pw/check-pw";
 import { settingsRouter } from "./routes/settings/settings";
-import { adminSettingsRouter } from "./routes/admin-settings/save-admin-settings";
+import { adminSettingsRouter } from "./routes/admin-settings";
 
 // const swaggerFile = require("../swagger/swagger-output");
 
