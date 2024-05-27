@@ -5,6 +5,8 @@ import { SettingsDoc } from "./settings";
 export interface UserAttrs {
   userId: string;
   password: string;
+  email: string;
+  orgName: string;
   roomKey: string;
   admin?: boolean;
   settings?: SettingsDoc;
@@ -20,6 +22,8 @@ const userSchema = new mongoose.Schema<UserAttrs, UserModel>(
   {
     userId: { type: String, required: true },
     password: { type: String, required: true },
+    email: { type: String, required: true },
+    orgName: { type: String, required: true },
     roomKey: { type: String, required: true },
     admin: { type: Boolean, required: false },
     settings: { type: mongoose.Schema.Types.ObjectId, ref: "Settings" }
@@ -33,6 +37,7 @@ const userSchema = new mongoose.Schema<UserAttrs, UserModel>(
         delete ret.__v;
       },
     },
+    timestamps: true,
   }
 );
 

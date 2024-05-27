@@ -3,7 +3,7 @@ import { User } from "../../models/user";
 import { BadRequestError } from "../../errors/bad-request-error";
 import { SignupDto, signupSchema } from "./signup.dto";
 import { validateBody, validateRequest } from "../../middlewares/validate-body";
-import { adminSettingsService } from "../admin-settings/admin-settings.service";
+import { adminSettingsService } from "../admin-settings/service/admin-settings.service";
 import { NotAuthorizedError } from "@/errors/not-authorized-error";
 
 const router = Router();
@@ -12,7 +12,7 @@ router.post(
   "/",
   validateBody(signupSchema),
   async (req: validateRequest<SignupDto>, res: Response) => {
-    const { userId, password, roomKey, managerCode } = req.body;
+    const { userId, password, orgName, email, roomKey, managerCode } = req.body;
     const existingUser = await User.findOne({ userId });
     const confirmManagerCode = await adminSettingsService.getManagerCode();
 
@@ -24,7 +24,7 @@ router.post(
       throw new BadRequestError("계정이 이미 존재합니다.", "userId");
     }
 
-    const user = User.build({ userId, password, roomKey });
+    const user = User.build({ userId, password, roomKey, orgName, email });
     await user.save();
 
     res.status(201).send(user);

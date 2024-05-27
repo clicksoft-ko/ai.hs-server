@@ -1,6 +1,6 @@
 import { AdminSettings, AdminSettingsDoc } from "@/models/admin-settings";
-import { SaveAdminSettingsDto } from "./dto/save-admin-settings.dto";
-import { AdminSettingsResponseDto } from "./dto/admin-settings.dto";
+import { SaveAdminSettingsDto } from "../dto/save-admin-settings.dto";
+import { AdminSettingsResponseDto } from "../dto/admin-settings.dto";
 
 class AdminSettingsService {
   async getManagerCode(): Promise<string | undefined> {

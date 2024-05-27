@@ -4,7 +4,7 @@ import Joi from "joi";
 import { validateBody, validateRequest } from "@/middlewares/validate-body";
 import { requireAdmin } from "@/middlewares/require-admin";
 import { SaveAdminSettingsDto } from "./dto/save-admin-settings.dto";
-import { adminSettingsService as service } from "./admin-settings.service";
+import { adminSettingsService as service } from "./service/admin-settings.service";
 import { AdminSettingsDoc } from "@/models/admin-settings";
 import { AdminSettingsDto } from "./dto/admin-settings.dto";
 import { NotAuthorizedError } from "@/errors/not-authorized-error";
