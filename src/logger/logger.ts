@@ -1,6 +1,8 @@
 import { ecsFormat } from '@elastic/ecs-winston-format'
 import dayjs from 'dayjs';
 import winston from 'winston'
+import DailyRotateFile from 'winston-daily-rotate-file'
+
 const { combine, colorize, printf, timestamp } = winston.format;
 
 const env = process.env.NODE_ENV;
@@ -10,7 +12,9 @@ const levels = {
   warn: 1,
   info: 2,
   http: 3,
-  debug: 4
+  verbose: 4,
+  debug: 5,
+  silly: 6
 };
 
 const colors = {
@@ -18,7 +22,7 @@ const colors = {
   warn: 'yellow',
   info: 'green',
   http: 'magenta',
-  debug: 'blue'
+  debug: 'blue',
 };
 
 winston.addColors(colors);
@@ -32,11 +36,12 @@ const logger = winston.createLogger({
         colorize({ all: true }),
         printf(({ level, message, timestamp, ...props }) => `${dayjs(timestamp).format("YY.MM.DD HH:mm:ss")} ${level}: ${message} ${Object.keys(props).length > 0 ? JSON.stringify(props) : ""}`)),
     }),
-    new winston.transports.File({ filename: `${logdir}/error.log`, level: 'error' }),
-    new winston.transports.File({ filename: `${logdir}/warn.log`, level: 'warn' }),
-    // new winston.transports.File({ filename: `${logdir}/info.log`, level: 'info' }),
     new winston.transports.File({ filename: `${logdir}/http.log`, level: 'http' }),
-    // new winston.transports.File({ filename: `${logdir}/combined.log` }),
+    new DailyRotateFile({
+      filename: `${logdir}/hslog-%DATE%.log`,
+      datePattern: 'YYYY-MM-DD',
+      level: 'http',
+    }),
   ],
   levels,
 });

@@ -14,7 +14,7 @@ const start = async () => {
   }
   const port = +process.env.PORT!;
   socketServer.listen(port, () => {
-    logger.info(`Listen ${port}`)
+    logger.debug(`Listen ${port}`)
   });
 };
 

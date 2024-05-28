@@ -49,6 +49,7 @@
     "nodemailer": "^6.9.13",
     "nodemailer-juice": "^1.0.1",
     "socket.io": "^4.7.5",
-    "winston": "^3.13.0"
+    "winston": "^3.13.0",
+    "winston-daily-rotate-file": "^5.0.0"
   }
 }
