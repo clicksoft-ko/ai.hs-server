@@ -14,7 +14,7 @@ export async function sendChangePasswordEmail({ to, token }: Args) {
   const replacedHtml = html
     .replaceAll("@title", "클릭소프트 웹 문진표 비밀번호 찾기")
     .replaceAll("@url", `${URLConst.CLIENT}/${token}/changepw`)
-    .replaceAll("@logoSrc", `${URLConst.SERVER}/images/click_icon.png`)
+    .replaceAll("@logoSrc", `${URLConst.CLIENT}/images/main_logo.png`) 
 
   const mailManager = new MailManager(
     process.env.SMTP_SERVICE!,
