@@ -7,7 +7,7 @@
     "start:debug": "nodemon --inspect src/index.ts",
     "swagger": "npx ts-node ./src/swagger/swagger.ts",
     "deploy:prod": "npm run build && pm2 startOrRestart ecosystem.prod.config.js --env prod",
-    "build": "npm run clean && tsc -p . && tsc-alias && npm run copyPublic",
+    "build": "tsc -p . && tsc-alias && npm run copyPublic",
     "copyPublic": "cp -rf src/_public/. dist/_public",
     "clean": "rm -rf dist"
   },
