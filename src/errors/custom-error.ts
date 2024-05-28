@@ -8,7 +8,7 @@ export abstract class CustomError extends Error {
   serializeErrors(): ErrorResult<any> {
     return {
       message: this.message,
-      error: this.key ? { [this.key]: this.message } : {},
+      error: this.key ? { [this.key]: this.message } : undefined,
     };
   }
 }

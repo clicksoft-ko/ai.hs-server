@@ -6,12 +6,18 @@ import { User, UserAttrs } from "@/models/user";
 import bcrypt from 'bcrypt'
 import { ChangePwDto } from "../dto/change-pw.dto";
 import { ChangeEmailDto } from "../dto/change-email.dto";
+import { FindPwDto } from '../dto/find-pw.dto';
+import { sendChangePasswordEmail } from '@/utils/mail/mail-util';
+import { randomUUID } from 'crypto';
+import { Token, TokenAttrs } from '@/models/token';
+import dayjs from 'dayjs'
+import { tokenService } from '@/routes/token/service/token-service';
 
 type UserIdType = { userId: string };
 
 class UsersService {
   private async getUser(userId: string | undefined) {
-    const user = userId ? await User.findOne({ userId }) : undefined;
+    const user = userId ? await User.findOne({ userId: userId.toLowerCase() }) : undefined;
     if (!user) {
       throw new BadRequestError("사용자 정보가 없습니다.", "_form");
     }
@@ -63,6 +69,7 @@ class UsersService {
 
     user.password = password;
     await user.save();
+    await tokenService.delete({ userId, tokenType: "changePw" });
   }
 
   async changeEmail({ userId, email }: ChangeEmailDto & UserIdType): Promise<UserAttrs> {
@@ -70,6 +77,25 @@ class UsersService {
 
     user.email = email;
     return user.save();
+  }
+
+  async findPassword({ userId, email }: FindPwDto & UserIdType): Promise<FindPwDto> {
+    const user = await this.getUser(userId);
+    if (user.email !== email) {
+      throw new BadRequestError("이메일이 일치하지 않습니다.");
+    }
+    const uuid = randomUUID();
+    const token = Token.build({
+      token: uuid,
+      userId: userId,
+      tokenType: 'changePw',
+      expiredAt: dayjs().add(30, "m").toDate(),
+    })
+
+    await token.save();
+    await sendChangePasswordEmail({ to: email, token: uuid });
+
+    return { email }
   }
 }
 

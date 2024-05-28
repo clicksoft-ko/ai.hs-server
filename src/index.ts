@@ -2,21 +2,19 @@ require("dotenv").config();
 import mongoose from "mongoose";
 import { SocketIOServer } from "./socket-io/socket-io-server";
 import { app } from "./app";
+import { logger, loggerError } from "./logger/logger";
 
 const socketServer = new SocketIOServer(app);
 
 const start = async () => {
-  console.log(process.env.JWT_KEY);
-  console.log(process.env.MONGO_URI);
-  
-  try { 
+  try {
     await mongoose.connect(process.env.MONGO_URI!);
-  } catch (err) {
-    console.log("몽고디비 연결 실패", err);
+  } catch (error) {
+    loggerError({ errorCode: "MONGODB_CONN", error });
   }
   const port = +process.env.PORT!;
   socketServer.listen(port, () => {
-    console.log(`listen ${port}~~`);
+    logger.info(`Listen ${port}`)
   });
 };
 

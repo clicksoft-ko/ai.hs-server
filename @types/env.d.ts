@@ -4,5 +4,10 @@ declare namespace NodeJS {
     JWT_KEY?: string;
     ENC_KEY?: string;
     PORT?: string;
+    SMTP_SERVICE?: string;
+    SMTP_HOST?: string;
+    SMTP_PORT?: string;
+    SMTP_AUTH_USER?: string;
+    SMTP_AUTH_PASS?: string;
   }
 }

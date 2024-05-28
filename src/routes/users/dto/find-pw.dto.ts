@@ -1,10 +1,10 @@
 import Joi from "joi";
 
-export interface ChangeEmailDto {
+export interface FindPwDto {
   email: string;
 }
 
-export const ChangeEmailDtoSchema = Joi.object<ChangeEmailDto>({
+export const findPasswordDtoSchema = Joi.object<FindPwDto>({
   email: Joi.string().email().trim().lowercase().messages({
     "string.email": `이메일 형식을 확인해주세요.`,
   }),

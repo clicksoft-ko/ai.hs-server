@@ -1,4 +1,4 @@
-import express, { Response } from 'express'
+import express, { Request, Response } from 'express'
 import Joi from 'joi';
 import { validateBody, validateRequest } from '@/middlewares/validate-body';
 import { usersService } from './service/users-service';
@@ -7,6 +7,7 @@ import { ChangePwDto as ChangePwDto, changePasswordDtoSchema as changePwDtoSchem
 import { currentUser } from '@/middlewares/current-user';
 import { requireAuth } from '@/middlewares/require-auth';
 import { ChangeEmailDto, ChangeEmailDtoSchema } from './dto/change-email.dto';
+import { FindPwDto, findPasswordDtoSchema } from './dto/find-pw.dto';
 
 const router = express.Router();
 
@@ -45,5 +46,13 @@ router.put(
   }
 );
 
+router.put(
+  "/:userId/findpw",
+  validateBody(findPasswordDtoSchema),
+  async (req: validateRequest<FindPwDto>, res: Response) => {
+    const { email } = await usersService.findPassword({ userId: req.params.userId, email: req.body.email })
+    res.status(200).send({ email });
+  }
+);
 
 export { router as usersRouter }

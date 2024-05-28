@@ -13,8 +13,9 @@ import swaggerFile from './swagger/swagger-release.json'
 import { settingsRouter } from "./routes/settings/settings";
 import { adminSettingsRouter } from "./routes/admin-settings";
 import { usersRouter } from "./routes/users";
-
-// const swaggerFile = require("../swagger/swagger-output");
+import path from "path";
+import { tokenRouter } from "./routes/token/token";
+import { httpLogMiddleware } from "./middlewares/http-log-middleware";
 
 const app = express();
 
@@ -30,6 +31,9 @@ app.use(
     credentials: true,
   })
 );
+
+app.use(httpLogMiddleware);
+app.use(express.static(path.join(__dirname, "../public")));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
@@ -39,12 +43,12 @@ app.use(
     secure: process.env.NODE_ENV === "production",
   })
 );
-
 app.use("/api/swagger", swaggerUi.serve, swaggerUi.setup(swaggerFile));
 app.use("/api/signin", signinRouter);
 app.use("/api/signup", signupRouter);
 app.use("/api/signout", signoutRouter);
 app.use("/api/users", usersRouter);
+app.use("/api/token", tokenRouter);
 app.use("/api/settings", settingsRouter);
 app.use("/api/admin-settings", adminSettingsRouter);
 app.use("/api/currentuser", currentUserRouter);
