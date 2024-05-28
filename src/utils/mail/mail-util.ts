@@ -2,6 +2,7 @@ import fs from 'fs/promises'
 import path from 'path';
 import { MailManager } from './mail-manager';
 import { URLConst } from '@/constants/url-const';
+import { changePasswordHtml } from './change-password';
 
 interface Args {
   to: string;
@@ -9,10 +10,8 @@ interface Args {
 }
 
 export async function sendChangePasswordEmail({ to, token }: Args) {
-  const filePath = path.join(__dirname, "change-password.html")
-  const html = await fs.readFile(filePath);
-
-  const replacedHtml = html.toString()
+  const html = changePasswordHtml;
+  const replacedHtml = html
     .replaceAll("@title", "클릭소프트 웹 문진표 비밀번호 찾기")
     .replaceAll("@url", `${URLConst.CLIENT}/${token}/changepw`)
     .replaceAll("@logoSrc", `${URLConst.SERVER}/images/click_icon.png`)

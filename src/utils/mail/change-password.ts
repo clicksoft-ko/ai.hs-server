@@ -1,6 +1,5 @@
-<!DOCTYPE html>
+export const changePasswordHtml = `<!DOCTYPE html>
 <html>
-
 <head>
   <style>
     body {
@@ -75,4 +74,4 @@
   </div>
 </body>
 
-</html>
+</html>`
