@@ -36,7 +36,6 @@ const logger = winston.createLogger({
         colorize({ all: true }),
         printf(({ level, message, timestamp, ...props }) => `${dayjs(timestamp).format("YY.MM.DD HH:mm:ss")} ${level}: ${message} ${Object.keys(props).length > 0 ? JSON.stringify(props) : ""}`)),
     }),
-    new winston.transports.File({ filename: `${logdir}/http.log`, level: 'http' }),
     new DailyRotateFile({
       filename: `${logdir}/hslog-%DATE%.log`,
       datePattern: 'YYYY-MM-DD',
