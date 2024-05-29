@@ -1,9 +1,9 @@
 import { Server } from "socket.io";
 import { Server as HttpServer } from "http";
 import { createServer } from "node:http";
-import { JoinRoomDto } from "./models/join-room.dto";
 import { Express } from "express";
 import { SocketIOEventHandler } from "./handlers/socket-io-event-handler";
+import { socketLogMiddleware } from "@/middlewares/socket-log-middleware";
 
 export class SocketIOServer {
   private server: HttpServer;
@@ -15,6 +15,7 @@ export class SocketIOServer {
       path: "/api/socket.io",
       cors: { origin: ["https://hs.click-soft.co.kr"], credentials: true },
     });
+    this.io.use(socketLogMiddleware);
     this.handleConnection();
   }
 

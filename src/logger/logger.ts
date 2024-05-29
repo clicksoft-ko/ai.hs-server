@@ -1,49 +1,23 @@
-import { ecsFormat } from '@elastic/ecs-winston-format'
-import dayjs from 'dayjs';
 import winston from 'winston'
 import DailyRotateFile from 'winston-daily-rotate-file'
+import { WinstonConst } from './winston-const';
+declare module 'winston' {
+  interface Logger {
+    socket: (message: any) => void;
+  }
+}
 
-const { combine, colorize, printf, timestamp } = winston.format;
-
-const env = process.env.NODE_ENV;
-const logdir = "./logs";
-const levels = {
-  error: 0,
-  warn: 1,
-  info: 2,
-  http: 3,
-  verbose: 4,
-  debug: 5,
-  silly: 6
-};
-
-const colors = {
-  error: 'red',
-  warn: 'yellow',
-  info: 'green',
-  http: 'magenta',
-  debug: 'blue',
-};
-
-winston.addColors(colors);
+winston.addColors(WinstonConst.colors);
 
 const logger = winston.createLogger({
-  format: env === "production" ? ecsFormat() : undefined,
+  format: WinstonConst.format,
   transports: [
-    new winston.transports.Console({
-      level: 'debug',
-      format: combine(timestamp(),
-        colorize({ all: true }),
-        printf(({ level, message, timestamp, ...props }) => `${dayjs(timestamp).format("YY.MM.DD HH:mm:ss")} ${level}: ${message} ${Object.keys(props).length > 0 ? JSON.stringify(props) : ""}`)),
-    }),
-    new DailyRotateFile({
-      filename: `${logdir}/hslog-%DATE%.log`,
-      datePattern: 'YYYY-MM-DD',
-      level: 'http',
-    }),
+    new winston.transports.Console(WinstonConst.console),
+    new DailyRotateFile(WinstonConst.dailyRotateFile),
   ],
-  levels,
+  levels: WinstonConst.levels,
 });
+
 
 interface LoggerErrorArgs {
   error: Error | unknown;
