@@ -15,7 +15,7 @@ export class SocketIOServer {
       path: "/api/socket.io",
       cors: { origin: ["https://hs.click-soft.co.kr"], credentials: true },
     });
-    this.io.use(socketLogMiddleware);
+    // this.io.use(socketLogMiddleware);
     this.handleConnection();
   }
 

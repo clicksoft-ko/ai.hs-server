@@ -3,6 +3,8 @@ import { QuestionnaireSchema, flattenJoiError } from "health-screening-shared/jo
 import * as sock from "health-screening-shared/interfaces.socket";
 import { JoinRoomDto } from "../models/join-room.dto";
 import Joi from "joi";
+import { loggerError, loggerSocket } from "@/logger/logger";
+import { SocketEvError } from "@/errors/socket-ev-error";
 
 export class SocketIOEventHandler {
   constructor(private io: Server, private socket: Socket) { }
@@ -42,7 +44,9 @@ export class SocketIOEventHandler {
     data: sock.SaveQuestionnaireArgs,
     ack: (ack: sock.SaveQuestionnaireResult) => void
   ) {
-    await this.catchWrapper(async () => {
+    const ev = "saveQuestionnaire";
+
+    await this.catchWrapper(ev, data.key, async () => {
       const schema = (QuestionnaireSchema as Joi.ObjectSchema<any>).keys({
         key: Joi.string().required(),
         eiAuto: Joi.number().required(),
@@ -58,7 +62,7 @@ export class SocketIOEventHandler {
       const result = await this.io
         .to(data.key)
         .timeout(10000)
-        .emitWithAck("saveQuestionnaire", data);
+        .emitWithAck(ev, data);
 
       const resultData = this.getResult(result)
       if (resultData.status === 'error') {
@@ -73,7 +77,7 @@ export class SocketIOEventHandler {
     data: GetQuestionnaireArgs,
     ack: (ack: any) => void
   ) {
-    await this.catchWrapper(async () => {
+    await this.catchWrapper(ev, data.key, async () => {
       const result = await this.io
         .to(data.key)
         .timeout(10000)
@@ -81,17 +85,21 @@ export class SocketIOEventHandler {
 
       const resultData = this.getResult(result);
       if (resultData?.status === 'error') {
-        throw new Error(resultData?.message)
+        throw new SocketEvError(resultData?.message, ev)
       }
 
       ack?.({ status: "success", data: resultData });
     }, ack);
   }
 
-  async catchWrapper(callback: () => Promise<void>, ack: (ack: sock.EmitResultBase<any>) => void) {
+  async catchWrapper(ev: string, room: string, callback: () => Promise<void>, ack: (ack: sock.EmitResultBase<any>) => void) {
     try {
+      const startTime = Date.now()
       await callback();
+      const evTime = Date.now() - startTime;
+      loggerSocket({ ev, evTime, room });
     } catch (error: any) {
+      loggerError({ errorCode: 'SOCKET_EV', error, ev })
       ack?.({ status: "error", message: error.message });
     }
   }

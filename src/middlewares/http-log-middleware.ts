@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { logger } from "@/logger/logger";
+import { logger, loggerHttp } from "@/logger/logger";
 
 export const httpLogMiddleware = (
   req: Request,
@@ -11,9 +11,7 @@ export const httpLogMiddleware = (
     const endTime = Date.now();
     const responseTime = endTime - startTime;
 
-    const data = { message: "API CALLED", method: req.method, url: req.originalUrl, responseTime, statusCode: res.statusCode, errorDetails: req.errorDetails }
-
-    logger.http(data);
+    loggerHttp({ req, res, responseTime })
   });
 
   next();

@@ -1,5 +1,5 @@
-import { logger } from '@/logger/logger';
-import { Server, Socket } from 'socket.io';
+import { loggerSocket } from '@/logger/logger';
+import { Socket } from 'socket.io';
 
 export const socketLogMiddleware = (socket: Socket, next: (err?: any) => void) => {
   const startTime = Date.now();
@@ -8,15 +8,7 @@ export const socketLogMiddleware = (socket: Socket, next: (err?: any) => void) =
     const endTime = Date.now();
     const eventTime = endTime - startTime;
 
-    const data = {
-      message: "SOCKET EVENT CALLED",
-      event,
-      eventTime,
-      handshake: socket.handshake,
-      args: args
-    };
-
-    logger.socket(data);
+    // loggerSocket({ event, eventTime, key: args?.[0]?.key });
   });
 
   next();
