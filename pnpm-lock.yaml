@@ -42,8 +42,8 @@ importers:
         specifier: ^11.2.0
         version: 11.2.0
       health-screening-shared:
-        specifier: ^0.0.57
-        version: 0.0.57
+        specifier: ^0.0.58
+        version: 0.0.58
       joi:
         specifier: ^17.13.0
         version: 17.13.1
@@ -807,8 +807,8 @@ packages:
     resolution: {integrity: sha512-0hJU9SCPvmMzIBdZFqNPXWa6dqh7WdH0cII9y+CyS8rG3nL48Bclra9HmKhVVUHyPWNH5Y7xDwAB7bfgSjkUMQ==}
     engines: {node: '>= 0.4'}
 
-  health-screening-shared@0.0.57:
-    resolution: {integrity: sha512-7p7y/wFq9h0kmJ+bXPbkrOlK3Xq5bbGpvck/0oje12u6UtCGL8kmBj4Os0VIrvo3hGs5p8LyzLvYGcAZ6ZPMwg==}
+  health-screening-shared@0.0.58:
+    resolution: {integrity: sha512-6rrzAWJXb5LgTohbc5NCQw6REqKi/00x0xEuOBasmNsUKbM3Vzd7nONfTk8FYy3jJbIXRKOi5Ul0c2I1Z53YHA==}
 
   htmlparser2@3.10.1:
     resolution: {integrity: sha512-IgieNijUMbkDovyoKObU1DUhm1iwNYE/fuifEoEHfd1oZKZDaONBSkal7Y01shxsM49R4XaMdGez3WnF9UfiCQ==}
@@ -2392,7 +2392,7 @@ snapshots:
     dependencies:
       function-bind: 1.1.2
 
-  health-screening-shared@0.0.57:
+  health-screening-shared@0.0.58:
     dependencies:
       joi: 17.13.1
 

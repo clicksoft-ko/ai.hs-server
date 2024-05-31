@@ -26,6 +26,8 @@ app.use(
     origin: [
       "http://localhost:3020",
       "https://localhost:3020",
+      "http://hs-local.click-soft.co.kr",
+      "https://hs-local.click-soft.co.kr",
       "https://hs.click-soft.co.kr",
     ],
     credentials: true,
