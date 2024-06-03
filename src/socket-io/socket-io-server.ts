@@ -13,7 +13,8 @@ export class SocketIOServer {
     this.server = createServer(app);
     this.io = new Server(this.server, {
       path: "/api/socket.io",
-      cors: { origin: ["https://hs.click-soft.co.kr"], credentials: true },
+      cors: {  origin: '*',
+      methods: ['GET', 'POST'], },
     });
     // this.io.use(socketLogMiddleware);
     this.handleConnection();
