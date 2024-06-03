@@ -5,7 +5,6 @@ import { validateBody, validateRequest } from "@/middlewares/validate-body";
 import { requireAdmin } from "@/middlewares/require-admin";
 import { SaveAdminSettingsDto } from "./dto/save-admin-settings.dto";
 import { adminSettingsService as service } from "./service/admin-settings.service";
-import { AdminSettingsDoc } from "@/models/admin-settings";
 import { AdminSettingsDto } from "./dto/admin-settings.dto";
 import { NotAuthorizedError } from "@/errors/not-authorized-error";
 
@@ -15,7 +14,7 @@ router.post(
   "/find",
   async (req: Request, res: Response) => {
     const { encKey } = req.body as AdminSettingsDto;
-    if (encKey && encKey !== process.env.ENC_KEY!) {
+    if (encKey && encKey !== process.env.ADMIN_KEY!) {
       throw new NotAuthorizedError();
     }
     const { selectQuery } = req.query;
