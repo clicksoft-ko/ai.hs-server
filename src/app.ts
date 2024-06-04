@@ -3,7 +3,6 @@ import "express-async-errors";
 import { errorHandler } from "./middlewares/error-handler";
 import cors from "cors";
 import cookieSession from "cookie-session";
-import { signupRouter } from "./routes/signup/signup";
 import { currentUserRouter } from "./routes/current-user/current-user";
 import { signoutRouter } from "./routes/signout/signout";
 import { signinRouter } from "./routes/signin/signin";
@@ -16,6 +15,7 @@ import { usersRouter } from "./routes/users";
 import path from "path";
 import { tokenRouter } from "./routes/token/token";
 import { httpLogMiddleware } from "./middlewares/http-log-middleware";
+import { signupRouter } from "./routes/signup";
 
 const app = express();
 

@@ -32,7 +32,7 @@ class SettingsService {
     if (!settings) {
       settings = Settings.build({ lockPw });
       await settings.save();
-      user.settings = settings.id;
+      user.settings = settings;
       await user.save();
     }
 

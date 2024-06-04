@@ -4,7 +4,7 @@ import Joi from "joi";
 import { validateBody, validateRequest } from "@/middlewares/validate-body";
 import { requireAdmin } from "@/middlewares/require-admin";
 import { SaveAdminSettingsDto } from "./dto/save-admin-settings.dto";
-import { adminSettingsService as service } from "./service/admin-settings.service";
+import { adminSettingsService } from "./service/admin-settings.service";
 import { AdminSettingsDto } from "./dto/admin-settings.dto";
 import { NotAuthorizedError } from "@/errors/not-authorized-error";
 
@@ -18,14 +18,14 @@ router.post(
       throw new NotAuthorizedError();
     }
     const { selectQuery } = req.query;
-    const data = await service.getAdminSettings(selectQuery as string);
+    const data = await adminSettingsService.getAdminSettings(selectQuery as string);
 
     res.send(data);
   }
 );
 
 const shcema = Joi.object<SaveAdminSettingsDto>({
-  managerCode: Joi.string().required(),
+  managerCode: Joi.string(),
 });
 
 router.post(
@@ -34,7 +34,7 @@ router.post(
   requireAdmin,
   validateBody(shcema),
   async (req: validateRequest<SaveAdminSettingsDto>, res: Response) => {
-    const savedData = service.saveAdminSettings(req.body)
+    const savedData = await adminSettingsService.saveAdminSettings(req.body)
     res.send({ data: savedData });
   }
 );

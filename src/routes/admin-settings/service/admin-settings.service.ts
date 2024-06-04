@@ -8,7 +8,7 @@ class AdminSettingsService {
 
     return result?.managerCode;
   }
-  
+
   async getAdminSettings(selectQuery?: string): Promise<AdminSettingsResponseDto> {
     const query = selectQuery
       ? AdminSettings.findOne().select(selectQuery)

@@ -1,11 +1,8 @@
 import express, { Request, Response } from 'express'
-import { BadRequestError } from '@/errors/bad-request-error';
 import Joi from 'joi';
 import { validateBody, validateRequest } from '@/middlewares/validate-body';
 import { requireAuth } from '@/middlewares/require-auth';
 import { currentUser } from '@/middlewares/current-user';
-import { User } from '@/models/user';
-import { Settings, SettingsDoc } from '@/models/settings';
 import { settingsService } from './service/settings-service';
 
 const router = express.Router();

@@ -1,5 +1,3 @@
-import fs from 'fs/promises'
-import path from 'path';
 import { MailManager } from './mail-manager';
 import { URLConst } from '@/constants/url-const';
 import { changePasswordHtml } from './change-password';

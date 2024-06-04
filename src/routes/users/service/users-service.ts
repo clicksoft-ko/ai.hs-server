@@ -6,7 +6,7 @@ import { User, UserAttrs } from "@/models/user";
 import bcrypt from 'bcrypt'
 import { ChangePwDto } from "../dto/change-pw.dto";
 import { ChangeEmailDto } from "../dto/change-email.dto";
-import { FindPwDto } from '../dto/find-pw.dto';
+import { FindPwDto, FindPwResponseDto } from '../dto/find-pw.dto';
 import { sendChangePasswordEmail } from '@/utils/mail/mail-util';
 import { randomUUID } from 'crypto';
 import { Token, TokenAttrs } from '@/models/token';
@@ -79,7 +79,7 @@ class UsersService {
     return user.save();
   }
 
-  async findPassword({ userId, email }: FindPwDto & UserIdType): Promise<FindPwDto> {
+  async findPassword({ userId, email }: FindPwDto & UserIdType): Promise<FindPwResponseDto> {
     const user = await this.getUser(userId);
     if (user.email !== email) {
       throw new BadRequestError("이메일이 일치하지 않습니다.");
@@ -95,7 +95,7 @@ class UsersService {
     await token.save();
     await sendChangePasswordEmail({ to: email, token: uuid });
 
-    return { email }
+    return { email, token: uuid }
   }
 }
 

@@ -50,8 +50,8 @@ router.put(
   "/:userId/findpw",
   validateBody(findPasswordDtoSchema),
   async (req: validateRequest<FindPwDto>, res: Response) => {
-    const { email } = await usersService.findPassword({ userId: req.params.userId, email: req.body.email })
-    res.status(200).send({ email });
+    const { email, token } = await usersService.findPassword({ userId: req.params.userId, email: req.body.email })
+    res.status(200).send({ email, token });
   }
 );
 
