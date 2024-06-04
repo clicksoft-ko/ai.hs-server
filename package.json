@@ -9,7 +9,8 @@
     "deploy:prod": "npm run build && pm2 startOrRestart ecosystem.prod.config.js --env prod",
     "build": "npm run clean && tsc -p . && tsc-alias && npm run copyPublic",
     "copyPublic": "node ./scripts/copy-public.js",
-    "clean": "node ./scripts/clean.js"
+    "clean": "node ./scripts/clean.js",
+    "test": "jest"
   },
   "keywords": [],
   "author": "",
