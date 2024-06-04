@@ -1,6 +1,6 @@
 import request from 'supertest'
 import { app } from '../../app';
-import { TEST_USER_EMAIL, TEST_USER_ID, TEST_USER_PW, testCurrentUser, testSignupAndSignin } from '../../test/common';
+import { TEST_USER_EMAIL, TEST_USER_ID, TEST_USER_PW, testAdminSignupAndSignin, testCurrentUser, testSignupAndSignin } from '../../test/common';
 import { CheckPasswordDto } from '../users/dto/check-password.dto';
 import { ChangePwDto } from '../users/dto/change-pw.dto';
 import { User } from '../../models/user';
@@ -83,5 +83,26 @@ describe(PATH, () => {
       .expect(200);
 
     expect(response.body?.email).toEqual(TEST_USER_EMAIL);
+  });
+
+  it(`get - 모든 유저 가져오기`, async () => {
+    const cookie = await testAdminSignupAndSignin();
+    const response = await request(app)
+      .get(`/api/users`)
+      .set('Cookie', cookie)
+      .expect(200); 
+
+    expect(response.body).toHaveProperty("users");
+    const users = response.body.users;
+    expect(response.body.users).toEqual(expect.any(Array));
+    const user = users[0];
+    expect(user).toHaveProperty('admin');
+    expect(user).toHaveProperty('createdAt');
+    expect(user).toHaveProperty('email');
+    expect(user).toHaveProperty('id');
+    expect(user).toHaveProperty('orgName');
+    expect(user).toHaveProperty('roomKey');
+    expect(user).toHaveProperty('updatedAt');
+    expect(user).toHaveProperty('userId');
   });
 });

@@ -8,6 +8,7 @@ import { currentUser } from '@/middlewares/current-user';
 import { requireAuth } from '@/middlewares/require-auth';
 import { ChangeEmailDto, ChangeEmailDtoSchema } from './dto/change-email.dto';
 import { FindPwDto, findPasswordDtoSchema } from './dto/find-pw.dto';
+import { requireAdmin } from '@/middlewares/require-admin';
 
 const router = express.Router();
 
@@ -54,5 +55,16 @@ router.put(
     res.status(200).send({ email, token });
   }
 );
+
+router.get(
+  "/",
+  currentUser,
+  requireAdmin,
+  async (req: Request, res: Response) => {
+    const users = await usersService.getAllUsers();
+
+    res.status(200).send({ users });
+  }
+)
 
 export { router as usersRouter }

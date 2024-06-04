@@ -97,6 +97,12 @@ class UsersService {
 
     return { email, token: uuid }
   }
+
+  async getAllUsers(): Promise<UserAttrs[] | undefined> {
+    const users = await User.find();
+
+    return users;
+  }
 }
 
 export const usersService = new UsersService
