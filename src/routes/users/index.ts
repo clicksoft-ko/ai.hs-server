@@ -9,6 +9,7 @@ import { requireAuth } from '@/middlewares/require-auth';
 import { ChangeEmailDto, ChangeEmailDtoSchema } from './dto/change-email.dto';
 import { FindPwDto, findPasswordDtoSchema } from './dto/find-pw.dto';
 import { requireAdmin } from '@/middlewares/require-admin';
+import { User } from '@/models/user';
 
 const router = express.Router();
 

@@ -16,7 +16,10 @@ export interface UserModel extends mongoose.Model<UserDoc> {
   build(attrs: UserAttrs): UserDoc;
 }
 
-interface UserDoc extends mongoose.Document, UserAttrs { }
+interface UserDoc extends mongoose.Document, UserAttrs {
+  createdAt?: Date;
+  updatedAt?: Date;
+}
 
 const userSchema = new mongoose.Schema<UserAttrs, UserModel>(
   {
@@ -25,12 +28,12 @@ const userSchema = new mongoose.Schema<UserAttrs, UserModel>(
     email: { type: String, required: true },
     orgName: { type: String, required: true },
     roomKey: { type: String, required: true },
-    admin: { type: Boolean, required: false },
+    admin: { type: Boolean, required: false },    
     settings: { type: mongoose.Schema.Types.ObjectId, ref: "Settings" }
   },
   {
     toJSON: {
-      transform(doc, ret) {
+      transform(doc, ret) {``
         ret.id = ret._id;
         delete ret._id;
         delete ret.password;
