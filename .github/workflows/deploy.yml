@@ -36,4 +36,4 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           passphrase: ${{ secrets.SSH_PASSPHRASE }}
           script: |
-            cd c:\web-release\health-screening\health-screening-backend & git pull & pnpm i --frozen-lockfile & pnpm deploy:prod
+            cd c:\web-release\health-screening\health-screening-backend & git pull & pnpm i --frozen-lockfile --prod & pnpm deploy:prod
