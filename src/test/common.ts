@@ -2,16 +2,16 @@
 import request from 'supertest'
 import { SignupDto } from '../routes/signup/dto/signup.dto';
 import { app } from '../app';
-import { SigninDto } from '@/routes/signin/dto/signin.dto';
-import { User } from '@/models/user';
-import { FindPwDto } from '@/routes/users/dto/find-pw.dto';
+import { FindPwDto } from '../routes/users/dto/find-pw.dto';
+import { User } from '../models/user';
+import { SigninDto } from '../routes/signin/dto/signin.dto';
 
 export const TEST_USER_ID = "test";
 export const TEST_USER_PW = "1234";
 export const TEST_USER_EMAIL = "test@test.com";
 
 export const testSignup = async (isAdmin: boolean = false) => {
-  const res = await request(app)
+  await request(app)
     .post("/api/signup")
     .send({
       userId: TEST_USER_ID,

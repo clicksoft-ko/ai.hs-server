@@ -37,4 +37,18 @@ describe(PATH, () => {
 
     expect(response.body.error).toHaveProperty('email');
   });
+
+  it(`같은 연결 코드(roomKey) 체크`, async () => {
+    await testSignup();
+
+    await request(app).post(PATH)
+      .send({
+        userId: "newTest",
+        password: "1234",
+        email: "newtest@test.com",
+        orgName: "newsoft",
+        roomKey: "abc123",
+        managerCode: "abc",
+      }).expect(400);
+  });
 });
