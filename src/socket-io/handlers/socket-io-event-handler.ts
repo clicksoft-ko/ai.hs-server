@@ -6,6 +6,11 @@ import Joi from "joi";
 import { loggerError, loggerSocket } from "@/logger/logger";
 import { SocketEvError } from "@/errors/socket-ev-error";
 
+interface SocketResponse<T> {
+  status: "success" | "error" | "none";
+  data?: T;
+  error?: { [key: string]: string };
+}
 export class SocketIOEventHandler {
   constructor(private io: Server, private socket: Socket) { }
 
@@ -22,13 +27,21 @@ export class SocketIOEventHandler {
 
     // 클라이언트가 방이 없는 경우 방에 들어간다.
     const emitData = { room: data.key }
-    if (!existRoom) {
+    const isValidKey = !!data.key;
+
+    if (!existRoom && isValidKey) {
       this.io.to(data.key).emit("leaveRoom", emitData); // 다른 클라이언트에 해당 방이 존재하면 나간다고 알림.
       this.io.socketsLeave(data.key); // 다른 클라이언트에 해당 방이 존재하면 나간다.
       this.socket.join(data.key);
     }
 
-    ack?.(emitData);
+    const response: SocketResponse<any> = {
+      status: existRoom
+        ? "none"
+        : isValidKey ? 'success' : 'error',
+      data: { room: data.key }
+    }
+    ack?.(response);
   }
 
   getResult(result: any) {

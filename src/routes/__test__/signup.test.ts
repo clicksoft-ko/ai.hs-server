@@ -5,7 +5,6 @@ import { testSignup } from '../../test/common';
 const PATH = "/api/signup";
 
 describe(PATH, () => {
-
   it(`계정 생성(201)`, async () => {
     await testSignup();
   });
