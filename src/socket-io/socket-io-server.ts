@@ -61,5 +61,5 @@ enum Ev {
   GetReceptionPatients = "getReceptionPatients",
   GetLifestyle = "getLifestyle",
   SaveCancer = "saveCancer",
-  GetCancer = "getCancer"
+  GetCancer = "getCancer",
 }
