@@ -10,6 +10,7 @@ interface SocketResponse<T> {
   status: "success" | "error" | "none";
   data?: T;
   error?: { [key: string]: string };
+  message?: string;
 }
 export class SocketIOEventHandler {
   constructor(private io: Server, private socket: Socket) { }
@@ -68,7 +69,7 @@ export class SocketIOEventHandler {
       const { error } = schema.validate(data);
       if (error) {
         const flattenError = flattenJoiError(error);
-        ack?.({ status: "error", error: flattenError });
+        ack?.({ status: "error", error: flattenError } satisfies SocketResponse<any>);
         return;
       }
 
@@ -81,7 +82,7 @@ export class SocketIOEventHandler {
       if (resultData.status === 'error') {
         ack?.(resultData);
       }
-      ack?.({ status: "success", data: resultData });
+      ack?.({ status: "success", data: resultData } satisfies SocketResponse<any>);
     }, ack);
   }
 
@@ -101,7 +102,7 @@ export class SocketIOEventHandler {
         throw new SocketEvError(resultData?.message, ev)
       }
 
-      ack?.({ status: "success", data: resultData });
+      ack?.({ status: "success", data: resultData } satisfies SocketResponse<any>);
     }, ack);
   }
 
@@ -113,7 +114,7 @@ export class SocketIOEventHandler {
       loggerSocket({ ev, evTime, room });
     } catch (error: any) {
       loggerError({ errorCode: 'SOCKET_EV', error, ev })
-      ack?.({ status: "error", message: error.message });
+      ack?.({ status: "error", message: error.message } satisfies SocketResponse<any>);
     }
   }
 }

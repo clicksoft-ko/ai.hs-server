@@ -13,8 +13,10 @@ export class SocketIOServer {
     this.server = createServer(app);
     this.io = new Server(this.server, {
       path: "/api/socket.io",
-      cors: {  origin: '*',
-      methods: ['GET', 'POST'], },
+      cors: {
+        origin: '*',
+        methods: ['GET', 'POST'],
+      },
     });
     // this.io.use(socketLogMiddleware);
     this.handleConnection();
@@ -37,6 +39,8 @@ export class SocketIOServer {
       onBroker(Ev.GetReceptionPatients);
       onBroker(Ev.SaveLifestyle);
       onBroker(Ev.GetLifestyle);
+      onBroker(Ev.SaveCancer);
+      onBroker(Ev.GetCancer);
 
       console.log(`${socket.id} user connected`);
       socket.on("disconnect", () => {
@@ -55,5 +59,7 @@ enum Ev {
   SaveQuestionnaire = "saveQuestionnaire",
   SaveLifestyle = "saveLifestyle",
   GetReceptionPatients = "getReceptionPatients",
-  GetLifestyle = "getLifestyle"
+  GetLifestyle = "getLifestyle",
+  SaveCancer = "saveCancer",
+  GetCancer = "getCancer"
 }

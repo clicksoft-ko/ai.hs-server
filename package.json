@@ -49,7 +49,7 @@
     "express": "^4.19.2",
     "express-async-errors": "^3.1.1",
     "fs-extra": "^11.2.0",
-    "health-screening-shared": "^0.0.58",
+    "health-screening-shared": "^0.0.59",
     "joi": "^17.13.0",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.3.2",
