@@ -1,0 +1,58 @@
+/:
+  get:
+    description: '내원 사유 전체 조회'
+    responses:
+      '200':
+        description: 'Successful response'
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/ReasonState'
+
+components:
+  schemas:
+    ReasonState:
+      type: object
+      required:
+        - id
+        - userId
+        - seq
+        - text
+      properties:
+        id:
+          type: string
+        userId:
+          type: string
+        seq:
+          type: number
+        text:
+          type: string
+        sub:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReasonSub'
+    ReasonSub:
+      type: object
+      required:
+        - seq
+        - text
+      properties:
+        seq:
+          type: number
+        text:
+          type: string
+        sub:
+          type: array
+          items:
+            type: object
+            properties:
+              seq:
+                type: number
+              text:
+                type: string
+              sub:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ReasonSub'

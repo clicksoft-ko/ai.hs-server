@@ -15,7 +15,8 @@ const schema = Joi.object<SaveLockpwDto>({
   lockPw: Joi.string().required(),
 })
 
-router.get("/lockpw",
+router.get(
+  "/lockpw",
   currentUser,
   requireAuth,
   async (req: Request, res: Response) => {

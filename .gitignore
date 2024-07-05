@@ -34,3 +34,6 @@ npm-debug.log
 .env
 
 dist
+
+src/swagger/swagger-output.json
+src/swagger/swagger.yaml

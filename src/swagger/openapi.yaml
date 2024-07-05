@@ -1,0 +1,67 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: SOPT API docs
+  description: SOPT SERVER SEMINAR
+  license:
+    name: Jionee
+servers:
+  - url: http://localhost:4020/
+components:
+  #Schemas : model 정보
+  schemas:
+    Error:
+      type: object
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
+  #Examples
+  examples:
+    userExample:
+      value:
+        {
+          'name': '홍길동',
+          'phone': '01011112222',
+          'email': 'swaggerTest@naver.com',
+          'school': { 'name': 'xx대학교', 'major': '컴퓨터공학부' },
+        }
+  #Responses 재사용되는 애들
+  responses:
+    successResponse:
+      description: successful request with no data
+      content:
+        application/json:
+          schema:
+            type: object
+            example: { 'status': 200, 'success': true, 'message': 'message' }
+    BadRequest:
+      description: 잘못된 요청
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            success: false
+            message: 잘못된 요청
+    InternalServerError:
+      description: 서버 에러
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            success: false
+            message: 서버 내부 오류
+#Paths api 경로 지정
+paths:
+  /api/clickdesk/doctor/:
+    $ref: './clickdesk/doctor.yaml#/~1'
+  /api/clickdesk/doctor/{id}:
+    $ref: './clickdesk/doctor.yaml#/~1{id}'
+  /api/clickdesk/doctor/seq:
+    $ref: './clickdesk/doctor.yaml#/~1seq'
+
+  /api/clickdesk/reason:
+    $ref: './clickdesk/reason.yaml#/~1'

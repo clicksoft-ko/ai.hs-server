@@ -3,7 +3,6 @@ import { Server as HttpServer } from "http";
 import { createServer } from "node:http";
 import { Express } from "express";
 import { SocketIOEventHandler } from "./handlers/socket-io-event-handler";
-import { socketLogMiddleware } from "@/middlewares/socket-log-middleware";
 
 export class SocketIOServer {
   private server: HttpServer;
@@ -42,11 +41,14 @@ export class SocketIOServer {
       onBroker(Ev.SaveCancer);
       onBroker(Ev.GetCancer);
 
+      onBroker(EvMobile.GetMobilePatientInfo);
+      onBroker(EvMobile.GetMobileDoctorInfo);
+      onBroker(EvMobile.GetMobilePatientCert);
       console.log(`${socket.id} user connected`);
       socket.on("disconnect", () => {
         console.log(`${socket.id} user disconnected`);
       });
-    });
+    }); 
   }
 
   listen(port: number, listeningListener?: (() => void) | undefined) {
@@ -62,4 +64,10 @@ enum Ev {
   GetLifestyle = "getLifestyle",
   SaveCancer = "saveCancer",
   GetCancer = "getCancer",
+}
+
+enum EvMobile {
+  GetMobilePatientInfo = "getMobilePatientInfo",
+  GetMobileDoctorInfo = "getMobileDoctorInfo",
+  GetMobilePatientCert = "getMobilePatientCert",
 }

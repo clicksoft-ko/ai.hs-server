@@ -6,8 +6,10 @@
     "start:dev": "nodemon ./src/index.ts",
     "start:debug": "nodemon --inspect src/index.ts",
     "swagger": "npx ts-node ./src/swagger/swagger.ts",
+    "swagger:dev": "swagger-cli bundle ./src/swagger/openapi.yaml --outfile src/swagger/swagger.yaml --type yaml",
+    "swagger:build": "swagger-cli bundle ./src/swagger/openapi.yaml --outfile dist/swagger/swagger.yaml --type yaml",
     "deploy:prod": "npm run build && pm2 startOrRestart ecosystem.prod.config.js --env prod",
-    "build": "npm run clean && tsc -p . && tsc-alias && npm run copyPublic",
+    "build": "npm run clean && tsc -p . && tsc-alias && npm run copyPublic && npm run swagger:build",
     "copyPublic": "node ./scripts/copy-public.js",
     "clean": "node ./scripts/clean.js",
     "test": "jest"
@@ -19,6 +21,8 @@
   "devDependencies": {
     "@types/jest": "^29.5.12",
     "@types/supertest": "^6.0.2",
+    "@types/swagger-ui-express": "^4.1.6",
+    "@types/yamljs": "^0.2.34",
     "jest": "^29.7.0",
     "mongodb-memory-server": "^9.3.0",
     "nodemon": "^3.1.0",
@@ -39,7 +43,6 @@
     "@types/jsonwebtoken": "^9.0.6",
     "@types/node": "^20.12.7",
     "@types/nodemailer": "^6.4.15",
-    "@types/swagger-ui-express": "^4.1.6",
     "bcrypt": "^5.1.1",
     "cookie-parser": "^1.4.6",
     "cookie-session": "^2.1.0",
@@ -57,9 +60,11 @@
     "nodemailer-juice": "^1.0.1",
     "socket.io": "^4.7.5",
     "swagger-autogen": "^2.23.7",
+    "swagger-cli": "^4.0.4",
     "swagger-ui-express": "^5.0.0",
     "tsc-alias": "^1.8.8",
     "winston": "^3.13.0",
-    "winston-daily-rotate-file": "^5.0.0"
+    "winston-daily-rotate-file": "^5.0.0",
+    "yamljs": "^0.3.0"
   }
 }

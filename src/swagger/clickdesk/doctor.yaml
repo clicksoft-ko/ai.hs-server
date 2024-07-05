@@ -1,0 +1,182 @@
+/:
+  get:
+    description: '의사 정보 모두 조회'
+    responses:
+      '200':
+        description: 'Successful response'
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/doctorState' 
+
+  put:
+    description: '의사 저장'
+    parameters:
+      - name: body
+        in: body
+        schema:
+          type: object
+          required:
+          - seq
+          - code
+          - name
+          - jinchalName
+          - kwamokName
+          properties:
+            seq:
+              type: number
+            code:
+              type: string
+            name: 
+              type: string
+            jinchalName: 
+              type: string
+            kwamokName: 
+              type: string
+    responses:
+      "200":
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/doctorState'   
+  patch:
+    description: '의사 순번 변경 업데이트'
+    parameters:
+      - name: body
+        in: body
+        schema:
+          type: object
+          properties:
+            codes:
+              type: array
+              items:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: A123
+                  seq:
+                    type: number
+                    example: 1
+    responses:
+      '200':
+        description: OK
+
+/{id}:
+  get:
+    description: '의사 한명조회'
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: 'The ID of the doctor'
+        schema:
+          type: string
+    responses:
+      '200':
+        description: 'Successful response'
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/doctorState'   
+/seq:
+  patch:
+    description: ''
+    parameters:
+      - name: body
+        in: body
+        schema:
+          type: object
+          properties:
+            codes:
+              type: array
+              items:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: A123
+                  seq:
+                    type: number
+                    example: 1
+    responses:
+      '200':
+        description: OK
+
+
+
+
+components:
+  schemas:
+    TimeRange:
+      type: object
+      properties:
+        start:
+          $ref: '#/components/schemas/TimeValue'
+        end:
+          $ref: '#/components/schemas/TimeValue'
+    TimeValue:
+      type: object
+      properties:
+        hour:
+          type: number
+        minute:
+          type: number
+    doctorState:
+      type: object
+      required:
+      - id
+      - userId
+      - seq
+      - code
+      - name
+      - jinchalName
+      - kwamokName
+      properties:
+        id:
+          type: string
+        userId:
+          type: string
+        seq:
+          type: number
+        code:
+          type: string
+        name:
+          type: string
+        jinchalName:
+          type: string
+        kwamokName:
+          type: string
+        works:
+          type: object
+          properties:
+            mon:
+              type: array
+              items:
+                $ref: '#/components/schemas/TimeRange'
+            tue:
+              type: array
+              items:
+                $ref: '#/components/schemas/TimeRange'
+            wed:
+              type: array
+              items:
+                $ref: '#/components/schemas/TimeRange'
+            thu:
+              type: array
+              items:
+                $ref: '#/components/schemas/TimeRange'
+            fri:
+              type: array
+              items:
+                $ref: '#/components/schemas/TimeRange'
+            sat:
+              type: array
+              items:
+                $ref: '#/components/schemas/TimeRange'
+            sun:
+              type: array
+              items:
+                $ref: '#/components/schemas/TimeRange'
