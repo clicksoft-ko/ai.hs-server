@@ -29,7 +29,7 @@ components:
           type: number
         text:
           type: string
-        sub:
+        subs:
           type: array
           items:
             $ref: '#/components/schemas/ReasonSub'
@@ -43,7 +43,7 @@ components:
           type: number
         text:
           type: string
-        sub:
+        subs:
           type: array
           items:
             type: object
@@ -52,7 +52,7 @@ components:
                 type: number
               text:
                 type: string
-              sub:
+              subs:
                 type: array
                 items:
                   $ref: '#/components/schemas/ReasonSub'
