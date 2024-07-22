@@ -5,7 +5,6 @@ export interface SignupDto {
   password: string;
   email: string;
   orgName: string;
-  roomKey: string;
   managerCode: string;
 }
 
@@ -22,9 +21,6 @@ export const signupSchema = Joi.object({
   }),
   orgName: Joi.string().required().messages({
     "string.empty": `기관이름을 입력하세요.`,
-  }),
-  roomKey: Joi.string().required().messages({
-    "string.empty": `연결 코드를 입력하세요.`,
   }),
   managerCode: Joi.string().required().messages({
     "string.empty": `관리자 코드를 입력하세요.`,

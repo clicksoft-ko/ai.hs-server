@@ -3,10 +3,11 @@ import { BadRequestError } from "../../../errors/bad-request-error";
 import { SignupDto } from "../dto/signup.dto";
 import { adminSettingsService } from "../../admin-settings/service/admin-settings.service";
 import { NotAuthorizedError } from "@/errors/not-authorized-error";
-
+import { randomUUID } from 'crypto'
+import dayjs from "dayjs";
 export default class SignupService {
   async signup(dto: SignupDto) {
-    const { userId, password, orgName, email, roomKey, managerCode } = dto;
+    const { userId, password, orgName, email, managerCode } = dto;
     const existingUser = await User.findOne({ userId });
     const confirmManagerCode = await adminSettingsService.getManagerCode();
 
@@ -18,11 +19,17 @@ export default class SignupService {
       throw new BadRequestError("계정이 이미 존재합니다.", "userId");
     }
 
-    const roomKeyExistingUser = await User.findOne({ roomKey });
-    if (roomKeyExistingUser && roomKey.toLowerCase() === roomKeyExistingUser.roomKey) {
-      throw new BadRequestError("이미 존재하는 연결 코드입니다.", "roomKey");
+    let roomKey: string;
+    while (true) {
+      const uuid = randomUUID()
+      roomKey = `${dayjs().format("YYYYMMDD")}-${uuid.split("-")[0]}`;
+
+      const roomKeyExistingUser = await User.findOne({ roomKey });
+      if (!roomKeyExistingUser) {
+        break;
+      }
     }
-    
+
     const user = User.build({ userId, password, roomKey, orgName, email });
     await user.save();
 

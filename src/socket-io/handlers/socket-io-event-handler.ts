@@ -10,6 +10,7 @@ interface SocketResponse<T> {
   status: "success" | "error" | "none";
   data?: T;
   error?: { [key: string]: string };
+  errorCode?: string;
   message?: string;
 }
 export class SocketIOEventHandler {
@@ -99,7 +100,7 @@ export class SocketIOEventHandler {
 
       const resultData = this.getResult(result);
       if (resultData?.status === 'error') {
-        throw new SocketEvError(resultData?.message, ev)
+        throw new SocketEvError({ ...resultData }, ev)
       }
 
       ack?.({ status: "success", data: resultData } satisfies SocketResponse<any>);
@@ -114,7 +115,11 @@ export class SocketIOEventHandler {
       loggerSocket({ ev, evTime, room });
     } catch (error: any) {
       loggerError({ errorCode: 'SOCKET_EV', error, ev })
-      ack?.({ status: "error", message: error.message } satisfies SocketResponse<any>);
+      if (error instanceof SocketEvError) {
+        ack?.({ ...error.error, status: "error" } satisfies SocketResponse<any>);
+      } else {
+        ack?.({ status: "error", message: error.message } satisfies SocketResponse<any>);
+      }
     }
   }
 }

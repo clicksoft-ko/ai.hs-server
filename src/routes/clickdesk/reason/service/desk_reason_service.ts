@@ -1,12 +1,25 @@
-import { DeskReason, DeskReasonDoc } from "@/models/desk_reason";
+import { DeskReason, DeskReasonDoc, ReasonSub } from "@/models/desk_reason";
 import { DeskReasonSaveDto } from "../dto/desk_reason_save.dto";
 import { BadRequestError } from "@/errors/bad-request-error";
 import { DeskReasonUpdateAllDto } from "../dto/desk_reason_update_all.dto";
 import { DeskReasonUpdateDto } from "../dto/desk_reason_update.dto";
 
 class DeskReasonService {
+  private sortReasonSubs(subs: ReasonSub[] | undefined) {
+    if (!subs || subs.length === 0) return;
+
+    subs.sort((a, b) => a.seq - b.seq);
+    subs.forEach(sub => this.sortReasonSubs(sub.subs))
+  }
+
   async findAll(userId: string): Promise<DeskReasonDoc[]> {
-    return DeskReason.find({ userId }).sort({ seq: 1 });
+    const reasons = await DeskReason.find({ userId }).sort({ seq: 1 });
+
+    reasons.forEach(reason => {
+      this.sortReasonSubs(reason.subs);
+    })
+
+    return reasons;
   }
 
   async save(userId: string, dto: DeskReasonSaveDto) {

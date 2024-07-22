@@ -44,11 +44,15 @@ export class SocketIOServer {
       onBroker(EvMobile.GetMobilePatientInfo);
       onBroker(EvMobile.GetMobileDoctorInfo);
       onBroker(EvMobile.GetMobilePatientCert);
+      onBroker(EvMobile.ReceiveMobilePatient);
+      onBroker(EvMobile.CheckMobilePatientConsent);
+      onBroker(EvMobile.SaveMobilePatientConsent);
+
       console.log(`${socket.id} user connected`);
       socket.on("disconnect", () => {
         console.log(`${socket.id} user disconnected`);
       });
-    }); 
+    });
   }
 
   listen(port: number, listeningListener?: (() => void) | undefined) {
@@ -70,4 +74,7 @@ enum EvMobile {
   GetMobilePatientInfo = "getMobilePatientInfo",
   GetMobileDoctorInfo = "getMobileDoctorInfo",
   GetMobilePatientCert = "getMobilePatientCert",
+  ReceiveMobilePatient = "receiveMobilePatient",
+  CheckMobilePatientConsent = "checkMobilePatientConsent",
+  SaveMobilePatientConsent = "saveMobilePatientConsent",
 }

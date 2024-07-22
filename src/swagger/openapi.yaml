@@ -1,10 +1,10 @@
 openapi: 3.0.0
 info:
   version: 1.0.0
-  title: SOPT API docs
-  description: SOPT SERVER SEMINAR
+  title: 클릭소프트 연동 API
+  description: 클릭소프트 웹 앱 연동 API
   license:
-    name: Jionee
+    name: kaburi
 servers:
   - url: http://localhost:4020/
 components:
@@ -17,17 +17,6 @@ components:
           type: boolean
         message:
           type: string
-  #Examples
-  examples:
-    userExample:
-      value:
-        {
-          'name': '홍길동',
-          'phone': '01011112222',
-          'email': 'swaggerTest@naver.com',
-          'school': { 'name': 'xx대학교', 'major': '컴퓨터공학부' },
-        }
-  #Responses 재사용되는 애들
   responses:
     successResponse:
       description: successful request with no data

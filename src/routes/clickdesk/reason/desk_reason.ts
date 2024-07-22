@@ -20,7 +20,7 @@ router.get(
     res.send(data);
   }
 );
-
+ 
 router.post(
   "/",
   currentUser,

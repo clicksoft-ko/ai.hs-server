@@ -18,7 +18,6 @@ describe(PATH, () => {
         password: "1234",
         email: "test@test.com",
         orgName: "clicksoft",
-        roomKey: "abc123",
         managerCode: "abc",
       }).expect(400);
   });
@@ -29,7 +28,6 @@ describe(PATH, () => {
         userId: "test",
         password: "1234",
         orgName: "clicksoft",
-        roomKey: "abc123",
         managerCode: "abc",
       })
       .expect(400);
@@ -37,17 +35,17 @@ describe(PATH, () => {
     expect(response.body.error).toHaveProperty('email');
   });
 
-  it(`같은 연결 코드(roomKey) 체크`, async () => {
-    await testSignup();
+  // it(`같은 연결 코드(roomKey) 체크`, async () => {
+  //   await testSignup();
 
-    await request(app).post(PATH)
-      .send({
-        userId: "newTest",
-        password: "1234",
-        email: "newtest@test.com",
-        orgName: "newsoft",
-        roomKey: "abc123",
-        managerCode: "abc",
-      }).expect(400);
-  });
+  //   await request(app).post(PATH)
+  //     .send({
+  //       userId: "newTest",
+  //       password: "1234",
+  //       email: "newtest@test.com",
+  //       orgName: "newsoft",
+  //       roomKey: "abc123",
+  //       managerCode: "abc",
+  //     }).expect(400);
+  // });
 });
