@@ -34,8 +34,8 @@ describe(PATH, () => {
     const response = await fetchSave({ cookies, text: "건강검진", useNHISHealthCheckUp: true });
     const response2 = await fetchSave({ cookies, text: "건강검진2", useNHISHealthCheckUp: true });
 
-    expect(response.body.seq).toBe(1);
-    expect(response2.body.seq).toBe(2);
+    expect(response.status).toBe(200);
+    expect(response2.status).toBe(400); // 공단검진은 내원사유에 하나만 작성이 가능
   });
 
   it(`reason 모두 조회하기`, async () => {
