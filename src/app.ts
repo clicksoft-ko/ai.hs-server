@@ -48,8 +48,11 @@ app.use(
     secure: process.env.NODE_ENV === "production",
   })
 );
-const swaggerSpec = YAML.load(path.join(__dirname, './swagger/swagger.yaml'))
-app.use("/api/swagger", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
+if (process.env.NODE_ENV !== 'test') {
+  const swaggerSpec = YAML.load(path.join(__dirname, './swagger/swagger.yaml'))
+  app.use("/api/swagger", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+}
 app.use("/api/signin", signinRouter);
 app.use("/api/signup", signupRouter);
 app.use("/api/signout", signoutRouter);
