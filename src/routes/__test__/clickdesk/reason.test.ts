@@ -6,10 +6,10 @@ import { DeskReasonDoc, ReasonState } from '../../../models/desk_reason'
 const PATH = "/api/clickdesk/reason";
 
 describe(PATH, () => {
-  async function fetchSave({ cookies, text }: { cookies: string[], text: string }) {
+  async function fetchSave({ cookies, text, useNHISHealthCheckUp = false }: { cookies: string[], text: string, useNHISHealthCheckUp?: boolean }) {
     return request(app)
       .post(`${PATH}`)
-      .send({ text } satisfies DeskReasonSaveDto)
+      .send({ text, useNHISHealthCheckUp } satisfies DeskReasonSaveDto)
       .set('Cookie', cookies);
   }
 
@@ -24,6 +24,15 @@ describe(PATH, () => {
 
     const response = await fetchSave({ cookies, text: "문진표" });
     const response2 = await fetchSave({ cookies, text: "감기" });
+
+    expect(response.body.seq).toBe(1);
+    expect(response2.body.seq).toBe(2);
+  });
+
+  it(`reason 공단검진 체크 저장하기`, async () => {
+    const cookies = await testAdminSignupAndSignin();
+    const response = await fetchSave({ cookies, text: "건강검진", useNHISHealthCheckUp: true });
+    const response2 = await fetchSave({ cookies, text: "건강검진2", useNHISHealthCheckUp: true });
 
     expect(response.body.seq).toBe(1);
     expect(response2.body.seq).toBe(2);
@@ -67,7 +76,7 @@ describe(PATH, () => {
       .patch(`${PATH}/${data1.id}/update`)
       .send({ ...data1 } satisfies ReasonState)
       .set('Cookie', cookies);
-  
+
 
     expect(res.body.text).toBe("문진표2");
     expect(res.body.seq).toBe(2);

@@ -29,9 +29,18 @@ class DeskReasonService {
       throw new BadRequestError("이미 존재하는 내원사유입니다.");
     }
 
+    if (reasons.some(r => r.useNHISHealthCheckUp) && dto.useNHISHealthCheckUp) {
+      throw new BadRequestError("이미 공단검진이 등록되어 있습니다.");
+    }
+
     const seqs = reasons.map(r => r.seq)
     const seq = seqs.length === 0 ? 1 : Math.max(...seqs) + 1;
-    const newReason = DeskReason.build({ userId, text: dto.text, seq })
+    const newReason = DeskReason.build({
+      userId,
+      text: dto.text,
+      seq,
+      useNHISHealthCheckUp: dto.useNHISHealthCheckUp,
+    })
     return newReason.save();
   }
 

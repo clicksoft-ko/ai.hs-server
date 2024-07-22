@@ -6,6 +6,7 @@ export interface ReasonState extends DeskReasonAttrs {
 
 export interface DeskReasonAttrs extends ReasonSub {
   userId: string;
+  useNHISHealthCheckUp: boolean;
 }
 
 export interface ReasonSub {
@@ -32,6 +33,7 @@ const reasonSubSchema = new mongoose.Schema<ReasonSub>(
 const reasonSchema = new mongoose.Schema<DeskReasonAttrs, DeskReasonModel>(
   {
     userId: { type: String, required: true },
+    useNHISHealthCheckUp: {type: Boolean, required: true},
     seq: { type: Number, required: true },
     text: { type: String, required: true },
     subs: { type: [reasonSubSchema], required: false },
