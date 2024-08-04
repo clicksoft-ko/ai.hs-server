@@ -10,6 +10,7 @@ import { ChangeEmailDto, ChangeEmailDtoSchema } from './dto/change-email.dto';
 import { FindPwDto, findPasswordDtoSchema } from './dto/find-pw.dto';
 import { requireAdmin } from '@/middlewares/require-admin';
 import { User } from '@/models/user';
+import { UpdateUserDto, updateUserSchema } from './dto/update-user.dto';
 
 const router = express.Router();
 
@@ -65,6 +66,31 @@ router.get(
     const users = await usersService.getAllUsers();
 
     res.status(200).send({ users });
+  }
+)
+
+router.patch(
+  "/:id",
+  currentUser,
+  requireAdmin,
+  validateBody(updateUserSchema),
+  async (req: validateRequest<UpdateUserDto>, res: Response) => {
+    const id = req.params.id;
+    const user = await usersService.update(id, req.body);
+
+    res.status(200).send(user);
+  }
+)
+
+router.delete(
+  "/:id",
+  currentUser,
+  requireAdmin,
+  async (req: Request, res: Response) => {
+    const id = req.params.id;
+    const user = await usersService.delete(id);
+
+    res.status(200).send(user);
   }
 )
 

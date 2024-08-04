@@ -1,4 +1,4 @@
-import { ReasonState, ReasonSub } from "@/models/desk_reason";
+import { ReasonState, ReasonSub } from "@/models/desk-reason";
 import Joi from "joi";
 import { reasonUpdateSchema } from "./desk_reason_update.dto";
 

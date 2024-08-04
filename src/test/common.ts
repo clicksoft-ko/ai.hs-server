@@ -3,9 +3,10 @@ import request from 'supertest'
 import { SignupDto } from '../routes/signup/dto/signup.dto';
 import { app } from '../app';
 import { FindPwDto } from '../routes/users/dto/find-pw.dto';
-import { User } from '../models/user';
+import { User, UserDoc } from '../models/user';
 import { SigninDto } from '../routes/signin/dto/signin.dto';
 
+type TestSigninResult = { user: UserDoc, cookies: string[] };
 export const TEST_USER_ID = "test";
 export const TEST_USER_PW = "1234";
 export const TEST_USER_EMAIL = "test@test.com";
@@ -18,7 +19,7 @@ export const testSignup = async (isAdmin: boolean = false) => {
       password: TEST_USER_PW,
       email: TEST_USER_EMAIL,
       orgName: "clicksoft",
-      managerCode: "abc",
+      managerCode: "abc",      
     } satisfies SignupDto);
 
   if (isAdmin) {
@@ -30,7 +31,7 @@ export const testSignup = async (isAdmin: boolean = false) => {
   }
 };
 
-export const testSignin = async (): Promise<string[]> => {
+export const testSignin = async (): Promise<TestSigninResult> => {
   const response = await request(app)
     .post("/api/signin")
     .send({
@@ -38,16 +39,19 @@ export const testSignin = async (): Promise<string[]> => {
       password: TEST_USER_PW,
     } satisfies SigninDto);
 
-  const cookie = response.headers['set-cookie'] as any;
-  return cookie as string[];
+  const cookies = response.headers['set-cookie'] as any;
+  return {
+    user: response.body,
+    cookies,
+  }
 }
 
-export const testSignupAndSignin = async (): Promise<string[]> => {
+export const testSignupAndSignin = async (): Promise<TestSigninResult> => {
   await testSignup();
   return testSignin();
 }
 
-export const testAdminSignupAndSignin = async (): Promise<string[]> => {
+export const testAdminSignupAndSignin = async (): Promise<TestSigninResult> => {
   await testSignup(true);
   return testSignin();
 }

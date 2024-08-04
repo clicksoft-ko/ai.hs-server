@@ -8,7 +8,7 @@ import { DeskDoctorUpdateSeqDto, deskDoctorUpdateSeqSchema } from "./dto/desk_do
 import { requireAuth } from "@/middlewares/require-auth";
 import { BadRequestError } from "@/errors/bad-request-error";
 import { DeskDoctorUpdateDto, deskDoctorUpdateSchema } from "./dto/desk_doctor_update.dto";
-import { DeskDoctorAttrs } from "@/models/desk_doctor";
+import { DeskDoctorAttrs } from "@/models/desk-doctor";
 
 const router = Router();
 

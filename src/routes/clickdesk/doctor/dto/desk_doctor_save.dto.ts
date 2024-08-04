@@ -1,4 +1,4 @@
-import { DeskDoctorAttrs } from "@/models/desk_doctor";
+import { DeskDoctorAttrs } from "@/models/desk-doctor";
 import Joi from "joi";
 
 export interface DeskDoctorSaveDto {

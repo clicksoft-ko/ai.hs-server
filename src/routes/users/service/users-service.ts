@@ -12,6 +12,10 @@ import { randomUUID } from 'crypto';
 import { Token, TokenAttrs } from '@/models/token';
 import dayjs from 'dayjs'
 import { tokenService } from '@/routes/token/service/token-service';
+import { UpdateUserDto } from '../dto/update-user.dto';
+import { settingsService } from '@/routes/settings/service/settings-service';
+import mongoose from 'mongoose';
+import { NotFoundError } from '@/errors/not-found-error';
 
 type UserIdType = { userId: string };
 
@@ -99,9 +103,47 @@ class UsersService {
   }
 
   async getAllUsers(): Promise<UserAttrs[] | undefined> {
-    const users = await User.find();
+    const users = await User.find().populate("settings");
 
     return users;
+  }
+
+  async update(id: string, dto: UpdateUserDto) {
+    const user = await User.findById(id);
+    if (!user) throw new BadRequestError("사용자 정보가 없습니다.");
+
+    user.orgName = dto.orgName;
+    user.email = dto.email;
+    await user.save();
+    return await settingsService.updateSettings(user, { ...dto.settings })
+  }
+
+  async delete(id: string) {
+    const session = await User.startSession();
+
+    try {
+      return await session.withTransaction(async (session) => {
+        const userDoc = await User.findByIdAndDelete(id, { session });
+        if (!userDoc) {
+          throw new BadRequestError("사용자 정보가 없습니다.");
+        }
+
+        const user = userDoc.toJSON();
+        if (user.settings) {
+          const settings = await settingsService.delete(user.settings.toString());
+          user.settings = settings?.toJSON();
+        }
+
+        // Transaction Commit
+        await session.commitTransaction();
+
+        return user;
+      })
+    } catch (error) {
+      throw error;
+    } finally {
+      session.endSession();
+    }
   }
 }
 

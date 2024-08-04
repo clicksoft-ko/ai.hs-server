@@ -7,13 +7,8 @@ import { randomUUID } from 'crypto'
 import dayjs from "dayjs";
 export default class SignupService {
   async signup(dto: SignupDto) {
-    const { userId, password, orgName, email, managerCode } = dto;
+    const { userId, password, orgName, email } = dto;
     const existingUser = await User.findOne({ userId });
-    const confirmManagerCode = await adminSettingsService.getManagerCode();
-
-    if (confirmManagerCode !== managerCode) {
-      throw new NotAuthorizedError();
-    }
 
     if (existingUser) {
       throw new BadRequestError("계정이 이미 존재합니다.", "userId");

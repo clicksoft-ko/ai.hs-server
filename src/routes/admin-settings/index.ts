@@ -24,7 +24,7 @@ router.post(
   }
 );
 
-const shcema = Joi.object<SaveAdminSettingsDto>({
+const schema = Joi.object<SaveAdminSettingsDto>({
   managerCode: Joi.string(),
 });
 
@@ -32,7 +32,7 @@ router.post(
   "/",
   currentUser,
   requireAdmin,
-  validateBody(shcema),
+  validateBody(schema),
   async (req: validateRequest<SaveAdminSettingsDto>, res: Response) => {
     const savedData = await adminSettingsService.saveAdminSettings(req.body)
     res.send({ data: savedData });

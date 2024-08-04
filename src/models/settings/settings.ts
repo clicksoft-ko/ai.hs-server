@@ -1,7 +1,12 @@
 import mongoose from "mongoose";
+import { ClickDeskSettings, clickDeskSchema } from "./click-desk.schema";
+import { QuestionnaireSettings, questionnaireSchema } from "./questionnaire.schema";
+import { WebAppSettings, webAppSchema } from "./web-app.schema";
 
 export interface SettingsAttrs {
-  lockPw: string;
+  clickDesk?: ClickDeskSettings;
+  webApp?: WebAppSettings;
+  questionnaire?: QuestionnaireSettings;
 }
 
 export interface SettingsModel extends mongoose.Model<SettingsDoc> {
@@ -12,7 +17,9 @@ export interface SettingsDoc extends mongoose.Document, SettingsAttrs { }
 
 const userSchema = new mongoose.Schema<SettingsAttrs, SettingsModel>(
   {
-    lockPw: { type: String, required: true },
+    clickDesk: { type: clickDeskSchema, required: false },
+    webApp: { type: webAppSchema, required: false },
+    questionnaire: { type: questionnaireSchema, required: false },
   },
   {
     toJSON: {

@@ -6,12 +6,12 @@ const PATH = "/api/admin-settings";
 
 describe(PATH, () => {
   it(`admin 정보 저장하기`, async () => {
-    const signinCookie = await testAdminSignupAndSignin();
+    const { cookies } = await testAdminSignupAndSignin();
 
     const userResponse = await request(app)
       .post(`/api/admin-settings`)
       .send({ managerCode: "admin_key" } satisfies SaveAdminSettingsDto)
-      .set('Cookie', signinCookie);
+      .set('Cookie', cookies);
 
     expect(userResponse.body).toHaveProperty("data");
 

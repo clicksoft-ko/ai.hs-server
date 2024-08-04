@@ -7,11 +7,13 @@ import { BadRequestError } from "@/errors/bad-request-error";
 
 
 class SigninService {
-  async signin({ userId, password, res }: SigninDto & { res: Response }) {
-    const user = await User.findOne({ userId });
+  async signin({ userId, password, withSettings, res }: SigninDto & { res: Response }) {
+    let userQuery = User.findOne({ userId });
+    if (withSettings) userQuery = userQuery?.populate('settings');
+    const user = await userQuery.exec();
     const errorMessage = "아이디 혹은 비밀번호를 확인하세요.";
 
-    if (!user) {            
+    if (!user) {
       throw new BadRequestError(errorMessage, "_form");
     }
 

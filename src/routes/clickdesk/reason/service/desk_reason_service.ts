@@ -1,4 +1,4 @@
-import { DeskReason, DeskReasonDoc, ReasonSub } from "@/models/desk_reason";
+import { DeskReason, DeskReasonDoc, ReasonSub } from "@/models/desk-reason";
 import { DeskReasonSaveDto } from "../dto/desk_reason_save.dto";
 import { BadRequestError } from "@/errors/bad-request-error";
 import { DeskReasonUpdateAllDto } from "../dto/desk_reason_update_all.dto";

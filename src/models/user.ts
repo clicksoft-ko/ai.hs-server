@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
-import { SettingsDoc } from "./settings";
+import { SettingsDoc } from "./settings/settings";
 
 export interface UserAttrs {
   userId: string;
@@ -16,7 +16,7 @@ export interface UserModel extends mongoose.Model<UserDoc> {
   build(attrs: UserAttrs): UserDoc;
 }
 
-interface UserDoc extends mongoose.Document, UserAttrs {
+export interface UserDoc extends mongoose.Document, UserAttrs {
   createdAt?: Date;
   updatedAt?: Date;
 }

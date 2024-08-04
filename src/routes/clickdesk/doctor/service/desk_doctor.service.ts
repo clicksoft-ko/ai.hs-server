@@ -1,4 +1,4 @@
-import { DeskDoctor } from "@/models/desk_doctor";
+import { DeskDoctor } from "@/models/desk-doctor";
 import { DeskDoctorSaveDto } from "../dto/desk_doctor_save.dto";
 import { DeskDoctorUpdateSeqDto } from "../dto/desk_doctor_update_seq.dto";
 import { DeskDoctorUpdateDto } from "../dto/desk_doctor_update.dto";

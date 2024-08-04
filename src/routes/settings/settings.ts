@@ -1,19 +1,11 @@
-import express, { Request, Response } from 'express'
-import Joi from 'joi';
-import { validateBody, validateRequest } from '@/middlewares/validate-body';
-import { requireAuth } from '@/middlewares/require-auth';
 import { currentUser } from '@/middlewares/current-user';
+import { requireAuth } from '@/middlewares/require-auth';
+import { validateBody, validateRequest } from '@/middlewares/validate-body';
+import express, { Request, Response } from 'express';
+import { SaveLockPwDto, saveLockpwDtoSchema } from './dto/save-lock-pw.dto';
 import { settingsService } from './service/settings-service';
 
 const router = express.Router();
-
-interface SaveLockpwDto {
-  lockPw: string;
-}
-
-const schema = Joi.object<SaveLockpwDto>({
-  lockPw: Joi.string().required(),
-})
 
 router.get(
   "/lockpw",
@@ -28,13 +20,25 @@ router.post(
   "/lockpw",
   currentUser,
   requireAuth,
-  validateBody(schema),
-  async (req: validateRequest<SaveLockpwDto>, res: Response) => {
+  validateBody(saveLockpwDtoSchema),
+  async (req: validateRequest<SaveLockPwDto>, res: Response) => {
     const { lockPw } = req.body;
     const user = await settingsService.saveLockPw(req.currentUser!.userId, { lockPw })
 
-    res.status(200).send({ lockPw: user.settings?.lockPw });
+    res.status(200).send({ lockPw: user.settings?.questionnaire?.lockPw });
   }
 );
 
-export { router as settingsRouter }
+// router.patch(
+//   "/:id",
+//   currentUser,
+//   requireAuth,
+//   validateBody(updateSettingsSchema),
+//   async (req: validateRequest<UpdateSettingsDto>, res: Response) => {
+//     const id = req.params.id;
+//     const user = await settingsService.updateSettings(id, req.body);
+
+//     res.status(200).send(user);
+//   }
+// );
+export { router as settingsRouter };

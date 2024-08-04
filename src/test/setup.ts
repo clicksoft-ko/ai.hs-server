@@ -1,14 +1,14 @@
-import { MongoMemoryServer } from 'mongodb-memory-server'
-import mongoose from 'mongoose' 
+import { MongoMemoryReplSet } from 'mongodb-memory-server';
+import mongoose from 'mongoose';
 
-let mongo: MongoMemoryServer;
+let replSet: MongoMemoryReplSet;
+
 beforeAll(async () => {
   process.env.JWT_KEY = "asdf";
   process.env.ADMIN_KEY = "admin_key";
 
-  mongo = await MongoMemoryServer.create();
-  const mongoUri = mongo.getUri();
-
+  replSet = await MongoMemoryReplSet.create({ replSet: { count: 3 } });
+  const mongoUri = replSet.getUri(); 
   await mongoose.connect(mongoUri, {});
 });
 
@@ -21,8 +21,8 @@ beforeEach(async () => {
 });
 
 afterAll(async () => {
-  if (mongo) {
-    await mongo.stop();
+  if (replSet) {
+    await replSet.stop();
   }
   await mongoose.connection.close();
 });

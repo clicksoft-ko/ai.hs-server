@@ -39,26 +39,26 @@ describe(PATH, () => {
       .set('Cookie', cookies);
   }
   it(`deskDoctor 한명씩 조회하기`, async () => {
-    const signinCookie = await testAdminSignupAndSignin();
-    const res1 = await testSave({ seq: 2, code: "A", name: "테스트A", cookies: signinCookie });
-    const res2 = await testSave({ seq: 3, code: "B", name: "테스트B", cookies: signinCookie });
+    const { cookies } = await testAdminSignupAndSignin();
+    const res1 = await testSave({ seq: 2, code: "A", name: "테스트A", cookies: cookies });
+    const res2 = await testSave({ seq: 3, code: "B", name: "테스트B", cookies: cookies });
 
-    const userResponse1 = await testFindOne(res1.body.id, signinCookie);
+    const userResponse1 = await testFindOne(res1.body.id, cookies);
 
     expect(userResponse1.body.code).toBe("A");
 
-    const userResponse2 = await testFindOne(res2.body.id, signinCookie);
+    const userResponse2 = await testFindOne(res2.body.id, cookies);
 
     expect(userResponse2.body.code).toBe("B");
   });
 
   it(`deskDoctor 전체 조회하기`, async () => {
-    const signinCookie = await testAdminSignupAndSignin();
-    await testSave({ seq: 2, code: "A", name: "테스트A", cookies: signinCookie });
-    await testSave({ seq: 3, code: "B", name: "테스트B", cookies: signinCookie });
-    await testSave({ seq: 1, code: "C", name: "테스트C", cookies: signinCookie });
+    const { cookies } = await testAdminSignupAndSignin();
+    await testSave({ seq: 2, code: "A", name: "테스트A", cookies: cookies });
+    await testSave({ seq: 3, code: "B", name: "테스트B", cookies: cookies });
+    await testSave({ seq: 1, code: "C", name: "테스트C", cookies: cookies });
 
-    const userResponse = await testFindAll(signinCookie);
+    const userResponse = await testFindAll(cookies);
 
     expect(userResponse.body).toBeInstanceOf(Array);
     expect(userResponse.body.length).toBe(3);
@@ -69,50 +69,50 @@ describe(PATH, () => {
   });
 
   it(`deskDoctor 저장하기`, async () => {
-    const signinCookie = await testAdminSignupAndSignin();
-    const userResponse = await testSave({ code: "01", name: "테스트", cookies: signinCookie });
+    const { cookies } = await testAdminSignupAndSignin();
+    const userResponse = await testSave({ code: "01", name: "테스트", cookies });
 
     expect(userResponse.body).toHaveProperty("name");
     expect(userResponse.body.name).toEqual("테스트");
   });
 
   it(`deskDoctor 같은 코드 저장 시 수정되는지 확인`, async () => {
-    const signinCookie = await testAdminSignupAndSignin();
-    await testSave({ code: "01", name: "테스트", cookies: signinCookie });
-    const userResponse = await testSave({ code: "01", name: "테스트2", cookies: signinCookie });
+    const { cookies } = await testAdminSignupAndSignin();
+    await testSave({ code: "01", name: "테스트", cookies: cookies });
+    const userResponse = await testSave({ code: "01", name: "테스트2", cookies: cookies });
 
     expect(userResponse.body).toHaveProperty("name");
     expect(userResponse.body.name).toEqual("테스트2");
   });
 
   it(`deskDoctor 삭제하기`, async () => {
-    const signinCookie = await testAdminSignupAndSignin();
-    await testSave({ code: "01", name: "테스트", cookies: signinCookie });
+    const { cookies } = await testAdminSignupAndSignin();
+    await testSave({ code: "01", name: "테스트", cookies: cookies });
 
     const userResponse = await request(app)
       .delete(PATH)
       .send({ code: "01" } satisfies DeskDoctorDeleteDto)
-      .set('Cookie', signinCookie);
+      .set('Cookie', cookies);
 
     expect(userResponse.body).toHaveProperty("name");
     expect(userResponse.body.name).toEqual("테스트");
   });
 
   it(`deskDoctor 순번 변경하기`, async () => {
-    const signinCookie = await testAdminSignupAndSignin();
-    const res1 = await testSave({ seq: 2, code: "A", name: "테스트A", cookies: signinCookie });
-    const res2 = await testSave({ seq: 3, code: "B", name: "테스트B", cookies: signinCookie });
-    const res3 = await testSave({ seq: 1, code: "C", name: "테스트C", cookies: signinCookie });
+    const { cookies } = await testAdminSignupAndSignin();
+    const res1 = await testSave({ seq: 2, code: "A", name: "테스트A", cookies: cookies });
+    const res2 = await testSave({ seq: 3, code: "B", name: "테스트B", cookies: cookies });
+    const res3 = await testSave({ seq: 1, code: "C", name: "테스트C", cookies: cookies });
     res1
     const userResponse = await request(app)
       .patch(`${PATH}/seq`)
       .send({ codes: [{ code: "A", seq: 1 }, { code: "B", seq: 2 }, { code: "C", seq: 3 }] } satisfies DeskDoctorUpdateSeqDto)
-      .set('Cookie', signinCookie);
+      .set('Cookie', cookies);
 
     expect(userResponse.body).toHaveProperty("modifiedCount");
     expect(userResponse.body.modifiedCount).toEqual(3);
 
-    const findResponse = await testFindAll(signinCookie);
+    const findResponse = await testFindAll(cookies);
     expect(findResponse.body.length).toBe(3);
     expect(findResponse.body[0].code).toBe("A");
     expect(findResponse.body[0].seq).toBe(1);
@@ -121,8 +121,8 @@ describe(PATH, () => {
   });
 
   it(`deskDoctor 업데이트하기`, async () => {
-    const signinCookie = await testAdminSignupAndSignin();
-    const res1 = await testSave({ seq: 2, code: "A", name: "테스트A", cookies: signinCookie });
+    const { cookies } = await testAdminSignupAndSignin();
+    const res1 = await testSave({ seq: 2, code: "A", name: "테스트A", cookies: cookies });
 
     await request(app)
       .patch(`${PATH}/${res1.body.id}/update`)
@@ -140,10 +140,10 @@ describe(PATH, () => {
           ]
         },
       } satisfies DeskDoctorUpdateDto)
-      .set('Cookie', signinCookie);
+      .set('Cookie', cookies);
 
 
-    const res = await testFindOne(res1.body.id, signinCookie);
+    const res = await testFindOne(res1.body.id, cookies);
     expect(res.body.name).toBe("테스트B");
   });
 });

@@ -1,4 +1,4 @@
-import { DoctorWorks, TimeRange, TimeValue } from '@/models/desk_doctor'
+import { DoctorWorks, TimeRange, TimeValue } from '@/models/desk-doctor'
 import Joi from 'joi'
 
 export interface DeskDoctorUpdateDto {

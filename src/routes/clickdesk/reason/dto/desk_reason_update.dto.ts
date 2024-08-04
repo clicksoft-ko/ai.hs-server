@@ -1,4 +1,4 @@
-import { ReasonState, ReasonSub } from "@/models/desk_reason";
+import { ReasonState, ReasonSub } from "@/models/desk-reason";
 import Joi from "joi";
 
 export interface DeskReasonUpdateDto extends ReasonState { }
