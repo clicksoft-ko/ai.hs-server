@@ -18,7 +18,6 @@ describe(PATH, () => {
         password: "1234",
         email: "test@test.com",
         orgName: "clicksoft",
-        managerCode: "abc",
       }).expect(400);
   });
 
@@ -28,7 +27,6 @@ describe(PATH, () => {
         userId: "test",
         password: "1234",
         orgName: "clicksoft",
-        managerCode: "abc",
       })
       .expect(400);
 

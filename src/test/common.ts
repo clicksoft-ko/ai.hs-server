@@ -19,7 +19,6 @@ export const testSignup = async (isAdmin: boolean = false) => {
       password: TEST_USER_PW,
       email: TEST_USER_EMAIL,
       orgName: "clicksoft",
-      managerCode: "abc",      
     } satisfies SignupDto);
 
   if (isAdmin) {

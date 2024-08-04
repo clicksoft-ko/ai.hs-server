@@ -7,8 +7,10 @@ beforeAll(async () => {
   process.env.JWT_KEY = "asdf";
   process.env.ADMIN_KEY = "admin_key";
 
-  replSet = await MongoMemoryReplSet.create({ replSet: { count: 3 } });
-  const mongoUri = replSet.getUri(); 
+  replSet = await MongoMemoryReplSet.create({
+    replSet: { count: 2 }
+  });
+  const mongoUri = replSet.getUri();
   await mongoose.connect(mongoUri, {});
 });
 
