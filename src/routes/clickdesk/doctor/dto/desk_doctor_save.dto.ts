@@ -1,12 +1,11 @@
-import { DeskDoctorAttrs } from "@/models/desk-doctor";
 import Joi from "joi";
 
 export interface DeskDoctorSaveDto {
-  seq: number,
-  code: string,
-  name: string,
-  jinchalName: string,
-  kwamokName: string,
+  seq: number;
+  code: string;
+  name: string;
+  jinchalName: string;
+  kwamokName: string;
 }
 
 export const deskDoctorSaveSchema = Joi.object<DeskDoctorSaveDto>({
@@ -15,4 +14,4 @@ export const deskDoctorSaveSchema = Joi.object<DeskDoctorSaveDto>({
   jinchalName: Joi.string().required(),
   name: Joi.string().required(),
   kwamokName: Joi.string().required(),
-})
+}).unknown(true);
