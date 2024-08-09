@@ -13,7 +13,18 @@ class DeskReasonService {
   }
 
   async findAll(userId: string): Promise<DeskReasonDoc[]> {
-    const reasons = await DeskReason.find({ userId }).sort({ seq: 1 });
+    const reasons = await DeskReason.find({ userId, $or: [{ doctorId: "" }, { doctorId: { $exists: false } }] }).sort({ seq: 1 });
+
+    reasons.forEach(reason => {
+      this.sortReasonSubs(reason.subs);
+    })
+
+    return reasons;
+  }
+
+  async findByDoctorId(userId: string, doctorId: string): Promise<DeskReasonDoc[]> {
+    const reasons = doctorId ? await DeskReason.find({ userId, doctorId }).sort({ seq: 1 })
+      : await this.findAll(userId);
 
     reasons.forEach(reason => {
       this.sortReasonSubs(reason.subs);
@@ -23,7 +34,7 @@ class DeskReasonService {
   }
 
   async save(userId: string, dto: DeskReasonSaveDto) {
-    const reasons = await this.findAll(userId);
+    const reasons = await this.findByDoctorId(userId, dto.doctorId);
 
     if (reasons.some(r => r.text.toLowerCase() === dto.text.toLowerCase())) {
       throw new BadRequestError("이미 존재하는 내원사유입니다.");
@@ -37,9 +48,8 @@ class DeskReasonService {
     const seq = seqs.length === 0 ? 1 : Math.max(...seqs) + 1;
     const newReason = DeskReason.build({
       userId,
-      text: dto.text,
       seq,
-      useNHISHealthCheckUp: dto.useNHISHealthCheckUp,
+      ...dto,
     })
     return newReason.save();
   }
@@ -61,6 +71,10 @@ class DeskReasonService {
 
   async delete(id: string) {
     return DeskReason.findOneAndDelete({ _id: id });
+  }
+
+  async deleteByDoctorId(doctorId: string) {
+    return DeskReason.deleteMany({ doctorId });
   }
 }
 

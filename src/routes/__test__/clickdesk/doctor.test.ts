@@ -5,6 +5,7 @@ import { DeskDoctorSaveDto } from '../../clickdesk/doctor/dto/desk_doctor_save.d
 import { DeskDoctorDeleteDto } from '../../clickdesk/doctor/dto/desk_doctor_delete.dto';
 import { DeskDoctorUpdateSeqDto } from '../../clickdesk/doctor/dto/desk_doctor_update_seq.dto';
 import { DeskDoctorUpdateDto } from '../../clickdesk/doctor/dto/desk_doctor_update.dto';
+import { fetchReasonsByDoctorId, saveReasonTest } from './common/reason-tests';
 
 const PATH = "/api/clickdesk/doctor";
 
@@ -87,7 +88,15 @@ describe(PATH, () => {
 
   it(`deskDoctor 삭제하기`, async () => {
     const { cookies } = await testAdminSignupAndSignin();
-    await testSave({ code: "01", name: "테스트", cookies: cookies });
+    const response = await testSave({ code: "01", name: "테스트", cookies: cookies });
+    const doctorId = response.body.id;
+
+    // 의사의 내원사유도 추가해준다.
+    await saveReasonTest({ cookies, text: "테스트", doctorId });
+    await saveReasonTest({ cookies, text: "테스트2", doctorId });
+    await saveReasonTest({ cookies, text: "검진", doctorId });
+    let reasonsRes = await fetchReasonsByDoctorId(cookies, doctorId);
+    expect(reasonsRes.body.length).toBe(3);
 
     const userResponse = await request(app)
       .delete(PATH)
@@ -96,6 +105,11 @@ describe(PATH, () => {
 
     expect(userResponse.body).toHaveProperty("name");
     expect(userResponse.body.name).toEqual("테스트");
+
+    // 의사의 내원사유가 모두 삭제됐는지 확인
+    reasonsRes = await fetchReasonsByDoctorId(cookies, doctorId);
+    expect(reasonsRes.body.length).toBe(0);
+
   });
 
   it(`deskDoctor 순번 변경하기`, async () => {

@@ -1,18 +1,11 @@
+import { DeskReasonDoc, ReasonState } from '@/models/desk-reason';
+import request from 'supertest';
 import { app } from '../../../app';
 import { testAdminSignupAndSignin } from '../../../test/common';
-import request from 'supertest'
-import { DeskReasonSaveDto } from '../../clickdesk/reason/dto/desk_reason_save.dto';
-import { DeskReasonDoc, ReasonState } from '@/models/desk-reason';
+import { fetchReasonsByDoctorId, saveReasonTest } from './common/reason-tests';
 const PATH = "/api/clickdesk/reason";
 
 describe(PATH, () => {
-  async function fetchSave({ cookies, text, useNHISHealthCheckUp = false }: { cookies: string[], text: string, useNHISHealthCheckUp?: boolean }) {
-    return request(app)
-      .post(`${PATH}`)
-      .send({ text, useNHISHealthCheckUp } satisfies DeskReasonSaveDto)
-      .set('Cookie', cookies);
-  }
-
   async function fetchGetAll(cookies: string[]) {
     return await request(app)
       .get(PATH)
@@ -22,8 +15,8 @@ describe(PATH, () => {
   it(`reason 저장하기`, async () => {
     const { cookies } = await testAdminSignupAndSignin();
 
-    const response = await fetchSave({ cookies, text: "문진표" });
-    const response2 = await fetchSave({ cookies, text: "감기" });
+    const response = await saveReasonTest({ cookies, text: "문진표" });
+    const response2 = await saveReasonTest({ cookies, text: "감기" });
 
     expect(response.body.seq).toBe(1);
     expect(response2.body.seq).toBe(2);
@@ -31,30 +24,44 @@ describe(PATH, () => {
 
   it(`reason 공단검진 체크 저장하기`, async () => {
     const { cookies } = await testAdminSignupAndSignin();
-    const response = await fetchSave({ cookies, text: "건강검진", useNHISHealthCheckUp: true });
-    const response2 = await fetchSave({ cookies, text: "건강검진2", useNHISHealthCheckUp: true });
+    let response = await saveReasonTest({ cookies, text: "건강검진", useNHISHealthCheckUp: true });
+    let response2 = await saveReasonTest({ cookies, text: "건강검진2", useNHISHealthCheckUp: true });
 
     expect(response.status).toBe(200);
     expect(response2.status).toBe(400); // 공단검진은 내원사유에 하나만 작성이 가능
+
+    response = await saveReasonTest({ cookies, text: "건강검진(a 의사)", useNHISHealthCheckUp: true, doctorId: 'a' });
+    response2 = await saveReasonTest({ cookies, text: "건강검진2(a 의사)", useNHISHealthCheckUp: true, doctorId: 'a' });
+    expect(response.status).toBe(200);
+    expect(response2.status).toBe(400); // 의사별로 적용
   });
 
   it(`reason 모두 조회하기`, async () => {
     const { cookies } = await testAdminSignupAndSignin();
-    await fetchSave({ cookies, text: "문진표" });
-    await fetchSave({ cookies, text: "감기" });
+    await saveReasonTest({ cookies, text: "문진표" });
+    await saveReasonTest({ cookies, text: "감기" });
 
+    await saveReasonTest({ cookies, text: "A 테스트", doctorId: "a" });
+    await saveReasonTest({ cookies, text: "A 테스트2", doctorId: "a" });
+    await saveReasonTest({ cookies, text: "b 테스트", doctorId: "b" });
 
-    const response = await fetchGetAll(cookies);
+    let response = await fetchGetAll(cookies);
 
-    const body: DeskReasonDoc[] = response.body;
+    let body: DeskReasonDoc[] = response.body;
 
     expect(body[0].text).toBe("문진표");
     expect(body[1].text).toBe("감기");
+
+    // 특정 doctorId 조회하기
+    response = await fetchReasonsByDoctorId(cookies, "a");
+    body = response.body;
+    expect(body[0].text).toBe("A 테스트");
+    expect(body[1].text).toBe("A 테스트2");
   });
 
   it(`reason 삭제하기`, async () => {
     const { cookies } = await testAdminSignupAndSignin();
-    const saveRes = await fetchSave({ cookies, text: "문진표" });
+    const saveRes = await saveReasonTest({ cookies, text: "문진표" });
 
     const delRes = await request(app)
       .delete(`${PATH}/${saveRes.body.id}`)
@@ -66,7 +73,7 @@ describe(PATH, () => {
 
   it(`reason 단일 업데이트`, async () => {
     const { cookies } = await testAdminSignupAndSignin();
-    const res1 = await fetchSave({ cookies, text: "문진표" });
+    const res1 = await saveReasonTest({ cookies, text: "문진표" });
 
     const data1 = res1.body as ReasonState;
     data1.text = "문진표2";
@@ -84,9 +91,9 @@ describe(PATH, () => {
 
   it(`reason 다중 업데이트`, async () => {
     const { cookies } = await testAdminSignupAndSignin();
-    const res1 = await fetchSave({ cookies, text: "문진표" });
-    const res2 = await fetchSave({ cookies, text: "감기" });
-    const res3 = await fetchSave({ cookies, text: "기타" });
+    const res1 = await saveReasonTest({ cookies, text: "문진표" });
+    const res2 = await saveReasonTest({ cookies, text: "감기" });
+    const res3 = await saveReasonTest({ cookies, text: "기타" });
 
     const data1 = res1.body as ReasonState;
     data1.seq = 2;

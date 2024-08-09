@@ -20,7 +20,18 @@ router.get(
     res.send(data);
   }
 );
- 
+
+router.get(
+  "/:doctorId",
+  currentUser,
+  requireAuth,
+  async (req: Request, res: Response) => {
+    const data = await deskReasonService.findByDoctorId(req.currentUser!.userId, req.params.doctorId);
+
+    res.send(data);
+  }
+);
+
 router.post(
   "/",
   currentUser,
