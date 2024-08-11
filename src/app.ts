@@ -18,6 +18,8 @@ import { httpLogMiddleware } from "./middlewares/http-log-middleware";
 import { signupRouter } from "./routes/signup";
 import { clickdeskDoctorRouter } from "./routes/clickdesk/doctor/desk_doctor";
 import { clickdeskReasonRouter } from "./routes/clickdesk/reason/desk_reason";
+import { imagesRouter } from "./routes/images/images";
+import { adFileRouter } from "./routes/ad-file/ad-file";
 
 const app = express();
 
@@ -53,6 +55,8 @@ if (process.env.NODE_ENV !== 'test') {
   const swaggerSpec = YAML.load(path.join(__dirname, './swagger/swagger.yaml'))
   app.use("/api/swagger", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 }
+app.use("/api/images", imagesRouter);
+app.use("/api/ad-file", adFileRouter);
 app.use("/api/signin", signinRouter);
 app.use("/api/signup", signupRouter);
 app.use("/api/signout", signoutRouter);
