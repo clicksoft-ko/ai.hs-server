@@ -9,5 +9,9 @@ declare namespace NodeJS {
     SMTP_PORT?: string;
     SMTP_AUTH_USER?: string;
     SMTP_AUTH_PASS?: string;
+    SFTP_HOST?: string;
+    SFTP_PORT?: string;
+    SFTP_USER?: string;
+    SFTP_PASS?: string;
   }
 }

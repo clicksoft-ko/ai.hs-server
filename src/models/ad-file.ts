@@ -17,10 +17,10 @@ interface AdFileDoc extends mongoose.Document, AdFileAttrs { }
 
 const adFileSchema = new mongoose.Schema<AdFileAttrs, AdFileModel>(
   {
-    userId: { type: String, required: true },
+    userId: { type: String, default: "" },
     fileName: { type: String, required: true },
     fileType: { type: String, required: true },
-    seq: { type: Number, required: true },    
+    seq: { type: Number, required: true },
   },
   {
     toJSON: {
