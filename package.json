@@ -7,7 +7,7 @@
     "start:debug": "nodemon --inspect src/index.ts",
     "swagger": "npx ts-node ./src/swagger/swagger.ts",
     "swagger:dev": "swagger-cli bundle ./src/swagger/openapi.yaml --outfile src/swagger/swagger.yaml --type yaml",
-    "swagger:build": "swagger-cli bundle ./src/swagger/openapi.yaml --outfile dist/swagghttps://www.npmjs.com/package/ssh2-sftp-client/v/11.0.0er/swagger.yaml --type yaml",
+    "swagger:build": "swagger-cli bundle ./src/swagger/openapi.yaml --outfile dist/swagger/swagger.yaml --type yaml",
     "deploy:prod": "npm run build && pm2 startOrRestart ecosystem.prod.config.js --env prod",
     "build": "npm run clean && tsc -p tsconfig.prod.json && tsc-alias && npm run copyPublic && npm run swagger:build",
     "copyPublic": "node ./scripts/copy-public.js",

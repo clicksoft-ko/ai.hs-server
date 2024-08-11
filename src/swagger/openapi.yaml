@@ -47,10 +47,10 @@ components:
 paths:
   /api/clickdesk/doctor/:
     $ref: './clickdesk/doctor.yaml#/~1'
-  /api/clickdesk/doctor/{id}:
-    $ref: './clickdesk/doctor.yaml#/~1{id}'
-  /api/clickdesk/doctor/seq:
-    $ref: './clickdesk/doctor.yaml#/~1seq'
+  # /api/clickdesk/doctor/{id}:
+  #   $ref: './clickdesk/doctor.yaml#/~1{id}'
+  # /api/clickdesk/doctor/seq:
+  #   $ref: './clickdesk/doctor.yaml#/~1seq'
 
-  /api/clickdesk/reason:
-    $ref: './clickdesk/reason.yaml#/~1'
+  # /api/clickdesk/reason:
+  #   $ref: './clickdesk/reason.yaml#/~1'
