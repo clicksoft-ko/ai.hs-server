@@ -2,6 +2,7 @@ import { Router, Request, Response } from "express";
 import { currentUser } from "../../middlewares/current-user";
 import { requireAuth } from "../../middlewares/require-auth";
 import { URLConst } from "@/constants/url-const";
+import { User } from "@/models/user";
 
 const router = Router();
 
@@ -20,7 +21,8 @@ router.post(
   currentUser,
   requireAuth,
   async (req: Request, res: Response) => {
-    res.send({ currentUser: req.currentUser });
+    const user = await User.findOne({ userId: req.currentUser?.userId }).populate("settings");
+    res.send({ currentUser: user });
   }
 );
 

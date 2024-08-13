@@ -38,14 +38,20 @@ class UsersService {
 
   signJwt(res: Response, user: UserAttrs) {
     const expiresInMinutes = 60 * 24 * 365;
+    const payload = {
+      userId: user.userId,
+      roomKey: user.roomKey,
+      admin: user.admin,
+      orgName: user.orgName,
+      email: user.email,
+      settings: {
+        questionnaire: { use: user.settings?.questionnaire?.use },
+        webApp: { use: user.settings?.webApp?.use },
+        clickDesk: { use: user.settings?.clickDesk?.use },
+      }
+    }
     const userJwt = jwt.sign(
-      {
-        userId: user.userId,
-        roomKey: user.roomKey,
-        admin: user.admin,
-        orgName: user.orgName,
-        email: user.email,
-      },
+      payload,
       process.env.JWT_KEY!,
       {
         expiresIn: expiresInMinutes * 60,
@@ -58,7 +64,7 @@ class UsersService {
       secure: process.env.NODE_ENV === "production",
     };
 
-    res.cookie("user", JSON.stringify(user), cookieOptions);
+    res.cookie("user", JSON.stringify(payload), cookieOptions);
     res.cookie("jwt", userJwt, cookieOptions);
   }
 

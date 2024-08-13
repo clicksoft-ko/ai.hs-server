@@ -1,3 +1,4 @@
+import { SettingsAttrs } from "@/models/settings/settings";
 import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 
@@ -5,6 +6,9 @@ interface UserPayload {
   userId: string;
   roomKey: string;
   admin?: boolean;
+  orgName: string;
+  email: string;
+  settings?: SettingsAttrs;
 }
 
 declare global {

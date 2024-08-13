@@ -6,7 +6,6 @@ export interface AdFileAttrs {
   fileName: string;
   fileType: AdFileType;
   seq: number;
-
 }
 
 export interface AdFileModel extends mongoose.Model<AdFileDoc> {

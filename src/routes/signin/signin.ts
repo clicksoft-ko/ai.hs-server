@@ -8,7 +8,7 @@ const router = Router();
 router.post("/",
   validateBody(signinSchema),
   async (req: validateRequest<SigninDto>, res: Response) => {
-    const user = await signinService.signin({ ...req.body, res });
+    const user = await signinService.signin({ ...req.body, res, withSettings: true });
 
     res.status(200).send(user);
   }
