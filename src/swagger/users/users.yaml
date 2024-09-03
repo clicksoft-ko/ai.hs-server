@@ -1,0 +1,106 @@
+/{userId}/checkpw:
+  get:
+    description: '내원 사유 전체 조회'
+    responses:
+      '200':
+        description: 'Successful response'
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/ReasonState'
+ 
+/users/{userId}/changepw:
+  put:
+    summary: Change user password
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ChangePwDto'
+    responses:
+      '200':
+        description: Password changed successfully
+/users/change-email:
+  put:
+    summary: Change user email
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ChangeEmailDto'
+    responses:
+      '200':
+        description: Email changed successfully
+/users/{userId}/findpw:
+  put:
+    summary: Find user password
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/FindPwDto'
+    responses:
+      '200':
+        description: Password found successfully
+/users:
+  get:
+    summary: Get all users
+    responses:
+      '200':
+        description: List of users
+/users/{id}:
+  patch:
+    summary: Update user
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/UpdateUserDto'
+    responses:
+      '200':
+        description: User updated successfully
+  delete:
+    summary: Delete user
+    responses:
+      '200':
+        description: User deleted successfully
+
+/users/{userId}/add-svcs:
+  get:
+    summary: 부가 서비스 조회
+    parameters:
+      - name: userId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: 'User ID'
+    responses:
+      '200':
+        description: 'Additional services retrieved successfully'
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                clickDesk:
+                  type: boolean
+                  description: 'ClickDesk service usage'
+                webApp:
+                  type: boolean
+                  description: 'WebApp service usage'
+                questionnaire:
+                  type: boolean
+                  description: 'Questionnaire service usage'
+      '400':
+        description: 잘못된 요청
+        content:
+          application/json:
+            schema:
+              $ref: '../openapi.yaml#/components/schemas/ErrorResult' 

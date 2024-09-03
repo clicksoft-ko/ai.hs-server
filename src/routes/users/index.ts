@@ -1,23 +1,22 @@
-import express, { Request, Response } from 'express'
-import Joi from 'joi';
-import { validateBody, validateRequest } from '@/middlewares/validate-body';
-import { usersService } from './service/users-service';
-import { CheckPasswordDto } from './dto/check-password.dto';
-import { ChangePwDto as ChangePwDto, changePasswordDtoSchema as changePwDtoSchema } from './dto/change-pw.dto';
 import { currentUser } from '@/middlewares/current-user';
-import { requireAuth } from '@/middlewares/require-auth';
-import { ChangeEmailDto, ChangeEmailDtoSchema } from './dto/change-email.dto';
-import { FindPwDto, findPasswordDtoSchema } from './dto/find-pw.dto';
 import { requireAdmin } from '@/middlewares/require-admin';
-import { User } from '@/models/user';
+import { requireAuth } from '@/middlewares/require-auth';
+import { validateBody, validateRequest } from '@/middlewares/validate-body';
+import express, { Request, Response } from 'express';
+import Joi from 'joi';
+import { ChangeEmailDto, ChangeEmailDtoSchema } from './dto/change-email.dto';
+import { ChangePwDto, changePasswordDtoSchema as changePwDtoSchema } from './dto/change-pw.dto';
+import { CheckPasswordDto } from './dto/check-password.dto';
+import { FindPwDto, findPasswordDtoSchema } from './dto/find-pw.dto';
 import { UpdateUserDto, updateUserSchema } from './dto/update-user.dto';
+import { usersService } from './service/users-service';
 
 const router = express.Router();
 
 const schema = Joi.object<CheckPasswordDto>({
   password: Joi.string().required(),
 })
-
+ 
 router.post(
   "/:userId/checkpw",
   validateBody(schema),
@@ -94,4 +93,14 @@ router.delete(
   }
 )
 
-export { router as usersRouter }
+router.get(
+  "/:userId/add-svcs",
+  async (req: Request, res: Response) => {
+    const userId = req.params.userId;
+    const user = await usersService.getAdditionalServices(userId);
+
+    res.status(200).send(user);
+  }
+)
+
+export { router as usersRouter };

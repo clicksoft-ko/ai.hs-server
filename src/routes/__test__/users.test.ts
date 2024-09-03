@@ -170,4 +170,15 @@ describe(PATH, () => {
     const deletedUser: UserAttrs = response.body;
     expect(deletedUser).toMatchObject(requestBody);
   })
+
+  it(`사용자 추가 서비스 조회`, async () => {
+    const { user, cookies } = await testAdminSignupAndSignin();
+
+    const response = await request(app)
+      .get(`/api/users/${user.id}/add-svcs`)
+      .set("Cookie", cookies);
+
+    expect(response.status).toBe(200); // 상태 코드가 200인지 확인
+    expect(response.body).toEqual({}); // body값이 {} 인경우 체크해줘
+  });
 });

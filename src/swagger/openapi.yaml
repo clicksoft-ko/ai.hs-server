@@ -10,13 +10,29 @@ servers:
 components:
   #Schemas : model 정보
   schemas:
-    Error:
+    ErrorResult:
       type: object
       properties:
-        success:
-          type: boolean
         message:
           type: string
+        error:
+          type: object
+          additionalProperties:
+            type: string
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorsResult'
+
+    ErrorsResult:
+      type: object
+      properties:
+        path:
+          type: array
+          items:
+            type: string
+        pathKey:
+          type: string 
   responses:
     successResponse:
       description: successful request with no data
@@ -30,7 +46,7 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Error'
+            $ref: '#/components/schemas/ErrorResult'
           example:
             success: false
             message: 잘못된 요청
@@ -39,7 +55,7 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Error'
+            $ref: '#/components/schemas/ErrorResult'
           example:
             success: false
             message: 서버 내부 오류
@@ -54,3 +70,8 @@ paths:
 
   /api/clickdesk/reason:
     $ref: './clickdesk/reason.yaml#/~1'
+
+  # api/users
+  /api/users/{userId}/add-svcs:
+    $ref: './users/users.yaml#/~1users~1{userId}~1add-svcs'
+ 

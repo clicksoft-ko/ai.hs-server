@@ -151,6 +151,17 @@ class UsersService {
       session.endSession();
     }
   }
+
+  async getAdditionalServices(userId: string) {
+    const user = await User.findOne({ userId }).populate("settings");
+    const settings = user?.settings;
+
+    return {
+      clickDesk: settings?.clickDesk?.use,
+      webApp: settings?.webApp?.use,
+      questionnaire: settings?.questionnaire?.use,
+    }
+  }
 }
 
 export const usersService = new UsersService

@@ -5,7 +5,6 @@
   "scripts": {
     "start:dev": "nodemon ./src/index.ts",
     "start:debug": "nodemon --inspect src/index.ts",
-    "swagger": "npx ts-node ./src/swagger/swagger.ts",
     "swagger:dev": "swagger-cli bundle ./src/swagger/openapi.yaml --outfile src/swagger/swagger.yaml --type yaml",
     "swagger:build": "swagger-cli bundle ./src/swagger/openapi.yaml --outfile dist/swagger/swagger.yaml --type yaml",
     "deploy:prod": "npm run build && pm2 startOrRestart ecosystem.prod.config.js --env prod",
@@ -72,5 +71,6 @@
     "winston": "^3.13.0",
     "winston-daily-rotate-file": "^5.0.0",
     "yamljs": "^0.3.0"
-  }
+  },
+  "packageManager": "pnpm@9.7.1+sha512.faf344af2d6ca65c4c5c8c2224ea77a81a5e8859cbc4e06b1511ddce2f0151512431dd19e6aff31f2c6a8f5f2aced9bd2273e1fed7dd4de1868984059d2c4247"
 }
