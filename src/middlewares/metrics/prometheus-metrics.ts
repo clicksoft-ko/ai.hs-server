@@ -69,9 +69,9 @@ class PrometheusMetrics {
     return finish;
   }
 
-  getMetricsEndpoint(req: Request, res: Response) {
+  async getMetricsEndpoint(req: Request, res: Response) {
     res.set('Content-Type', client.register.contentType);
-    res.send('Metrics endpoint');
+    res.end(await client.register.metrics());
   }
 }
 
