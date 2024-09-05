@@ -2,6 +2,7 @@ import winston from 'winston'
 import DailyRotateFile from 'winston-daily-rotate-file'
 import { WinstonConst } from './winston-const';
 import { Request, Response } from 'express'
+
 declare module 'winston' {
   interface Logger {
     socket: (message: any) => void;

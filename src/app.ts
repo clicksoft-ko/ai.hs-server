@@ -20,6 +20,7 @@ import { clickdeskDoctorRouter } from "./routes/clickdesk/doctor/desk_doctor";
 import { clickdeskReasonRouter } from "./routes/clickdesk/reason/desk_reason";
 import { imagesRouter } from "./routes/images/images";
 import { adFileRouter } from "./routes/ad-file/ad-file";
+import { metrics } from "./middlewares/metrics/prometheus-metrics";
 
 const app = express();
 
@@ -51,6 +52,7 @@ app.use(
   })
 );
 
+app.get('/api/metrics', metrics.getMetricsEndpoint);
 if (process.env.NODE_ENV !== 'test') {
   const swaggerSpec = YAML.load(path.join(__dirname, './swagger/swagger.yaml'))
   app.use("/api/swagger", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
