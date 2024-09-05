@@ -48,7 +48,7 @@ class PrometheusMetrics {
     const originUrl = req.url.toString();
     const method = req.method.toString();
     const labels = {
-      handler: req.route ? req.route.path : 'unknown',
+      handler: req.path,
       method: method,
     };
 
