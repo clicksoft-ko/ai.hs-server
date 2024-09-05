@@ -10,8 +10,8 @@ class PrometheusMetrics {
   }
 
   #requestSuccessHistogram = new Histogram({
-    name: 'nestjs_success_requests',
-    help: 'NestJs success requests - duration in seconds',
+    name: 'express_success_requests',
+    help: 'Express success requests - duration in seconds',
     labelNames: ['handler', 'controller', 'method'],
     buckets: [
       0.0001, 0.001, 0.005, 0.01, 0.025, 0.05, 0.075, 0.09, 0.1, 0.25, 0.5, 1,
@@ -21,8 +21,8 @@ class PrometheusMetrics {
 
 
   #requestFailHistogram = new Histogram({
-    name: 'nestjs_fail_requests',
-    help: 'NestJs fail requests - duration in seconds',
+    name: 'express_fail_requests',
+    help: 'Express fail requests - duration in seconds',
     labelNames: ['handler', 'controller', 'method'],
     buckets: [
       0.0001, 0.001, 0.005, 0.01, 0.025, 0.05, 0.075, 0.09, 0.1, 0.25, 0.5, 1,
@@ -31,8 +31,8 @@ class PrometheusMetrics {
   });
 
   #failureCounter = new Counter({
-    name: 'nestjs_requests_failed_count',
-    help: 'NestJs requests that failed',
+    name: 'express_requests_failed_count',
+    help: 'Express requests that failed',
     labelNames: ['handler', 'controller', 'error', 'method'],
   });
 
