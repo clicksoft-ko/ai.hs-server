@@ -45,18 +45,16 @@ class PrometheusMetrics {
   }
 
   start(req: Request) {
-    const originUrl = req.url.toString();
-    const method = req.method.toString();
     const labels = {
       handler: req.path,
-      method: method,
+      method: req.method,
     };
 
     const requestSuccessTimer = this.#requestSuccessHistogram.startTimer(labels);
     const requestFailTimer = this.#requestFailHistogram.startTimer(labels);
 
     const finish = (res: Response) => {
-      if (this.#isAvailableMetricsUrl(originUrl)) {
+      if (this.#isAvailableMetricsUrl(req.path)) {
         if (res.statusCode >= 200 && res.statusCode < 300) {
           requestSuccessTimer();
         } else {
