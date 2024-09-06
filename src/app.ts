@@ -16,11 +16,12 @@ import path from "path";
 import { tokenRouter } from "./routes/token/token";
 import { httpLogMiddleware } from "./middlewares/http-log-middleware";
 import { signupRouter } from "./routes/signup";
-import { clickdeskDoctorRouter } from "./routes/clickdesk/doctor/desk_doctor";
-import { clickdeskReasonRouter } from "./routes/clickdesk/reason/desk_reason";
+import { clickdeskDoctorRouter } from "./routes/clickdesk/doctor/desk-doctor";
+import { clickdeskReasonRouter } from "./routes/clickdesk/reason/desk-reason";
 import { imagesRouter } from "./routes/images/images";
 import { adFileRouter } from "./routes/ad-file/ad-file";
 import { metrics } from "./middlewares/metrics/prometheus-metrics";
+import { clickdeskSettingsRouter } from "./routes/clickdesk/settings/desk-settings";
 
 const app = express();
 
@@ -69,6 +70,7 @@ app.use("/api/admin-settings", adminSettingsRouter);
 app.use("/api/currentuser", currentUserRouter);
 app.use("/api/clickdesk/doctor", clickdeskDoctorRouter);
 app.use("/api/clickdesk/reason", clickdeskReasonRouter);
+app.use("/api/clickdesk/settings", clickdeskSettingsRouter);
 app.use(errorHandler);
 
 export { app };
