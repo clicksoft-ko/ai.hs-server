@@ -46,25 +46,25 @@ class PrometheusMetrics {
 
   start(req: Request) {
     const labels = {
-      handler: req.path,
+      path: req.path,
       method: req.method,
     };
 
     const requestSuccessTimer = this.#requestSuccessHistogram.startTimer(labels);
     const requestFailTimer = this.#requestFailHistogram.startTimer(labels);
 
-    const finish = (res: Response) => {
+    const finish = (res: Response, error?: Error) => {
       if (this.#isAvailableMetricsUrl(req.path)) {
         if (res.statusCode >= 200 && res.statusCode < 300) {
           requestSuccessTimer();
         } else {
           requestFailTimer();
-          this.#failureCounter.labels({ ...labels }).inc(1);
+          this.#failureCounter.labels({ ...labels, error: error?.name }).inc(1);
         }
       }
     }
 
-    return finish;
+    return { finish };
   }
 
   async getMetricsEndpoint(req: Request, res: Response) {

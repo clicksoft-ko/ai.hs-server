@@ -9,18 +9,18 @@ export const httpLogMiddleware = (
   next: NextFunction
 ) => {
   const startTime = Date.now();
-  const finishMetrics = metrics.start(req);
+  const { finish } = metrics.start(req);
 
-  const logAndFinishMetrics = () => {
+  const logAndFinishMetrics = (error?: Error) => {
     const endTime = Date.now();
     const responseTime = endTime - startTime;
 
     loggerHttp({ req, res, responseTime });
-    finishMetrics(res);
+    finish(res, error);
   };
 
-  res.on('finish', logAndFinishMetrics);
-  res.on('error', logAndFinishMetrics);
+  res.on('finish', () => logAndFinishMetrics());
+  res.on('error', (error) => logAndFinishMetrics(error));
 
   next();
 };
