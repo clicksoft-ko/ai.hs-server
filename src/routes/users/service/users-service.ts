@@ -1,21 +1,19 @@
-import jwt from 'jsonwebtoken'
-import { CookieOptions, Response } from 'express'
 import { BadRequestError } from "@/errors/bad-request-error";
-import { CheckPasswordDto } from "../dto/check-password.dto";
+import { Token } from '@/models/token';
 import { User, UserAttrs } from "@/models/user";
-import bcrypt from 'bcrypt'
-import { ChangePwDto } from "../dto/change-pw.dto";
-import { ChangeEmailDto } from "../dto/change-email.dto";
-import { FindPwDto, FindPwResponseDto } from '../dto/find-pw.dto';
-import { sendChangePasswordEmail } from '@/utils/mail/mail-util';
-import { randomUUID } from 'crypto';
-import { Token, TokenAttrs } from '@/models/token';
-import dayjs from 'dayjs'
-import { tokenService } from '@/routes/token/service/token-service';
-import { UpdateUserDto } from '../dto/update-user.dto';
 import { settingsService } from '@/routes/settings/service/settings-service';
-import mongoose from 'mongoose';
-import { NotFoundError } from '@/errors/not-found-error';
+import { tokenService } from '@/routes/token/service/token-service';
+import { sendChangePasswordEmail } from '@/utils/mail/mail-util';
+import bcrypt from 'bcrypt';
+import { randomUUID } from 'crypto';
+import dayjs from 'dayjs';
+import { CookieOptions, Response } from 'express';
+import jwt from 'jsonwebtoken';
+import { ChangeEmailDto } from "../dto/change-email.dto";
+import { ChangePwDto } from "../dto/change-pw.dto";
+import { CheckPasswordDto } from "../dto/check-password.dto";
+import { FindPwDto, FindPwResponseDto } from '../dto/find-pw.dto';
+import { UpdateUserDto } from '../dto/update-user.dto';
 
 type UserIdType = { userId: string };
 
@@ -120,7 +118,14 @@ class UsersService {
 
     user.orgName = dto.orgName;
     user.email = dto.email;
+    if (dto.geoLocation) {
+      user.location = {
+        type: "Point",
+        coordinates: [dto.geoLocation.lng, dto.geoLocation.lat]
+      }
+    }
     await user.save();
+
     return await settingsService.updateSettings(user, { ...dto.settings })
   }
 

@@ -12,7 +12,7 @@ export const TEST_USER_PW = "1234";
 export const TEST_USER_EMAIL = "test@test.com";
 
 export const testSignup = async (isAdmin: boolean = false) => {
-  await request(app)
+  const response = await request(app)
     .post("/api/signup")
     .send({
       userId: TEST_USER_ID,

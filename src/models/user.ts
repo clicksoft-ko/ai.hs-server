@@ -9,6 +9,10 @@ export interface UserAttrs {
   orgName: string;
   roomKey: string;
   admin?: boolean;
+  location?: {
+    type: "Point";
+    coordinates: number[];
+  };
   settings?: SettingsDoc;
 }
 
@@ -21,6 +25,20 @@ export interface UserDoc extends mongoose.Document, UserAttrs {
   updatedAt?: Date;
 }
 
+const locationSchema = new mongoose.Schema({
+  type: {
+    type: String,
+    enum: ['Point'],
+    required: true
+  },
+  coordinates: {
+    type: [Number],
+    required: true
+    },
+  },
+  { _id: false }
+);
+
 const userSchema = new mongoose.Schema<UserAttrs, UserModel>(
   {
     userId: { type: String, required: true },
@@ -28,12 +46,14 @@ const userSchema = new mongoose.Schema<UserAttrs, UserModel>(
     email: { type: String, required: true },
     orgName: { type: String, required: true },
     roomKey: { type: String, required: true },
-    admin: { type: Boolean, required: false },    
-    settings: { type: mongoose.Schema.Types.ObjectId, ref: "Settings" }
+    admin: { type: Boolean, required: false },
+    settings: { type: mongoose.Schema.Types.ObjectId, ref: "Settings" },
+    location: { type: locationSchema, required: false },
   },
   {
     toJSON: {
-      transform(doc, ret) {``
+      transform(doc, ret) {
+        ``
         ret.id = ret._id;
         delete ret._id;
         delete ret.password;
@@ -43,6 +63,9 @@ const userSchema = new mongoose.Schema<UserAttrs, UserModel>(
     timestamps: true,
   }
 );
+
+// 지리공간 인덱스 생성
+userSchema.index({ location: '2dsphere' });
 
 userSchema.pre("save", async function (done) {
   if (this.isModified("password")) {

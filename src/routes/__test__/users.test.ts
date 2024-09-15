@@ -130,6 +130,10 @@ describe(PATH, () => {
     const requestBody2: UpdateUserDto = {
       email: "abc2@abc.com",
       orgName: "abc2소프트",
+      geoLocation: {
+        lat: 36.123456,  // 위도는 -90에서 90 사이여야 합니다.
+        lng: 127.123456  // 경도는 -180에서 180 사이여야 합니다.
+      },
       settings: {
         clickDesk: { use: false },
         questionnaire: { use: true, lockPw: "2222" },
@@ -142,7 +146,9 @@ describe(PATH, () => {
       .send(requestBody2);
 
     expect(response2.status).toBe(200); // 상태 코드가 200인지 확인
-    expect(response2.body).toMatchObject(requestBody2);
+    expect(response2.body).toHaveProperty("location");
+    expect(response2.body.location.coordinates[0]).toEqual(requestBody2.geoLocation?.lng);
+    expect(response2.body.location.coordinates[1]).toEqual(requestBody2.geoLocation?.lat);
   });
 
   it(`사용자 정보 추가 및 삭제`, async () => {
