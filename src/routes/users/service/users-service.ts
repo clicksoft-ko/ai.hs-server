@@ -112,6 +112,12 @@ class UsersService {
     return users;
   }
 
+  async getUserById(id: string): Promise<UserAttrs | null> {
+    const user = await User.findById(id).populate("settings");
+
+    return user;
+  }
+
   async update(id: string, dto: UpdateUserDto) {
     const user = await User.findById(id);
     if (!user) throw new BadRequestError("사용자 정보가 없습니다.");

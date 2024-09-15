@@ -107,6 +107,20 @@ describe(PATH, () => {
     expect(user).toHaveProperty('userId');
   });
 
+  it(`get - 특정 유저 가져오기`, async () => {
+    const { user, cookies } = await testAdminSignupAndSignin();
+    const response = await request(app)
+      .get(`/api/users/${user.id}`)
+      .set('Cookie', cookies)
+      .expect(200);
+
+    expect(response.body).toHaveProperty('userId');
+    expect(response.body).toHaveProperty('email');
+    expect(response.body).toHaveProperty('orgName');
+    expect(response.body).toHaveProperty('roomKey');
+    expect(response.body).toHaveProperty('admin'); 
+  });
+
   it(`사용자 정보 및 설정 수정`, async () => {
     const { user, cookies } = await testAdminSignupAndSignin();
     const requestBody: UpdateUserDto = {

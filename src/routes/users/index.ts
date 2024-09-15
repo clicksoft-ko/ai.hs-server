@@ -68,6 +68,17 @@ router.get(
   }
 )
 
+router.get(
+  "/:id",
+  currentUser,
+  requireAdmin,
+  async (req: Request, res: Response) => {
+    const id = req.params.id;
+    const user = await usersService.getUserById(id);
+    res.status(200).send(user);
+  }
+)
+
 router.patch(
   "/:id",
   currentUser,

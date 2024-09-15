@@ -15,9 +15,9 @@ export interface UpdateUserDto {
 export const updateUserSchema = Joi.object<UpdateUserDto>({
   email: Joi.string().email().required(),
   orgName: Joi.string().required(),
-  geoLocation: Joi.object({
-    lat: Joi.number().required(),
-    lng: Joi.number().required(),
-  }),
   settings: updateSettingsSchema,
+  geoLocation: Joi.object({
+    lat: Joi.number().min(-90).max(90).required(),
+    lng: Joi.number().min(-180).max(180).required(),
+  }),
 })
