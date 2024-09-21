@@ -118,7 +118,7 @@ describe(PATH, () => {
     expect(response.body).toHaveProperty('email');
     expect(response.body).toHaveProperty('orgName');
     expect(response.body).toHaveProperty('roomKey');
-    expect(response.body).toHaveProperty('admin'); 
+    expect(response.body).toHaveProperty('admin');       
   });
 
   it(`사용자 정보 및 설정 수정`, async () => {
