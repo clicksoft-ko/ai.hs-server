@@ -1,13 +1,12 @@
 import winston from 'winston'
 import { ecsFormat } from '@elastic/ecs-winston-format'
 import dayjs from 'dayjs';
+import { isProduction } from '@/constants/env-const';
 
 const { combine, colorize, printf, timestamp } = winston.format;
-const env = process.env.NODE_ENV;
-
 export class WinstonConst {
   static logdir = "./logs";
-  static format = env === "production" ? ecsFormat() : undefined;
+  static format = isProduction ? ecsFormat() : undefined;
   static console = {
     level: 'debug',
     format: combine(timestamp(),

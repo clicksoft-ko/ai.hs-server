@@ -22,6 +22,9 @@ import { imagesRouter } from "./routes/images/images";
 import { adFileRouter } from "./routes/ad-file/ad-file";
 import { metrics } from "./middlewares/metrics/prometheus-metrics";
 import { clickdeskSettingsRouter } from "./routes/clickdesk/settings/desk-settings";
+import { webAppUserClient } from "./grpc-app";
+import { logger } from "./logger/logger";
+import { isProduction } from "./constants/env-const";
 
 const app = express();
 
@@ -49,7 +52,7 @@ app.use(cookieParser());
 app.use(
   cookieSession({
     signed: false,
-    secure: process.env.NODE_ENV === "production",
+    secure: isProduction,
   })
 );
 
@@ -58,6 +61,16 @@ if (process.env.NODE_ENV !== 'test') {
   const swaggerSpec = YAML.load(path.join(__dirname, './swagger/swagger.yaml'))
   app.use("/api/swagger", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 }
+app.get('/api/grpc-test', (req, res) => {
+  webAppUserClient.GetWebAppUser({ hsUserId: 'test' }, (err: any, response: any) => {
+    if (err) {
+      res.status(500).send(err);
+    } else {
+      logger.info(response);
+      res.json(response);
+    }
+  });
+});
 app.use("/api/images", imagesRouter);
 app.use("/api/ad-file", adFileRouter);
 app.use("/api/signin", signinRouter);

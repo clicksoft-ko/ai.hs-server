@@ -14,6 +14,7 @@ import { ChangePwDto } from "../dto/change-pw.dto";
 import { CheckPasswordDto } from "../dto/check-password.dto";
 import { FindPwDto, FindPwResponseDto } from '../dto/find-pw.dto';
 import { UpdateUserDto } from '../dto/update-user.dto';
+import { isProduction } from "@/constants/env-const";
 
 type UserIdType = { userId: string };
 
@@ -59,7 +60,7 @@ class UsersService {
     const cookieOptions: CookieOptions = {
       maxAge: expiresInMinutes * 60 * 1000,
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
+      secure: isProduction,
     };
 
     res.cookie("user", JSON.stringify(payload), cookieOptions);

@@ -1,5 +1,6 @@
-const isProudction = process.env.NODE_ENV! === 'production'
+import { isProduction } from "./env-const";
+
 export class URLConst {
-  static CLIENT = isProudction ? process.env.BASE_URL! : "http://localhost:3020";
-  static SERVER = isProudction ? process.env.BASE_URL! : "http://localhost:4020";
+  static CLIENT = isProduction ? process.env.BASE_URL! : "http://localhost:3020";
+  static SERVER = isProduction ? process.env.BASE_URL! : "http://localhost:4020";
 }

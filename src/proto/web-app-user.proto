@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package webAppUser;
+
+service WebAppUserService {
+  rpc GetWebAppUser(GetWebAppUserRequest) returns (GetWebAppUserResponse); 
+}
+
+message GetWebAppUserRequest {
+  string hsUserId = 1;
+}
+
+message GetWebAppUserResponse {
+  repeated WebAppUser users = 1; 
+}
+
+message WebAppUser {
+  string csUserId = 1;
+  string name = 2;
+}
