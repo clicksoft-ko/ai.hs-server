@@ -14,12 +14,13 @@
     "noImplicitReturns": false,
     "strictPropertyInitialization": false,
     "resolveJsonModule": true,
+    "skipLibCheck": true,
     "paths": {
       "@/*": ["./src/*"],
       "@/types/*": ["./@types/*"],
       "@/database/*": ["./src/database/*"]
     }
   },
-  "include": ["src/**/*", "@types/**/*.d.ts", "src/test/**/*"],
-  "exclude": ["node_modules"]
+  "include": ["src/**/*", "@types/**/*.d.ts"],
+  "exclude": ["node_modules", "src/test/**/*"]
 }
