@@ -3,14 +3,14 @@ syntax = "proto3";
 package webAppUser;
 
 service WebAppUserService {
-  rpc GetWebAppUser(GetWebAppUserRequest) returns (GetWebAppUserResponse); 
+  rpc GetWebAppUsers(GetWebAppUsersRequest) returns (GetWebAppUsersResponse); 
 }
 
-message GetWebAppUserRequest {
+message GetWebAppUsersRequest {
   string hsUserId = 1;
 }
 
-message GetWebAppUserResponse {
+message GetWebAppUsersResponse {
   repeated WebAppUser users = 1; 
 }
 

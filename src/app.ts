@@ -1,30 +1,31 @@
+import cookieParser from "cookie-parser";
+import cookieSession from "cookie-session";
+import cors from "cors";
 import express from "express";
 import "express-async-errors";
-import { errorHandler } from "./middlewares/error-handler";
-import cors from "cors";
-import cookieSession from "cookie-session";
-import { currentUserRouter } from "./routes/current-user/current-user";
-import { signoutRouter } from "./routes/signout/signout";
-import { signinRouter } from "./routes/signin/signin";
-import cookieParser from "cookie-parser";
-import swaggerUi from 'swagger-ui-express'
-import YAML from 'yamljs';
-import { settingsRouter } from "./routes/settings/settings";
-import { adminSettingsRouter } from "./routes/admin-settings";
-import { usersRouter } from "./routes/users";
 import path from "path";
-import { tokenRouter } from "./routes/token/token";
-import { httpLogMiddleware } from "./middlewares/http-log-middleware";
-import { signupRouter } from "./routes/signup";
-import { clickdeskDoctorRouter } from "./routes/clickdesk/doctor/desk-doctor";
-import { clickdeskReasonRouter } from "./routes/clickdesk/reason/desk-reason";
-import { imagesRouter } from "./routes/images/images";
-import { adFileRouter } from "./routes/ad-file/ad-file";
-import { metrics } from "./middlewares/metrics/prometheus-metrics";
-import { clickdeskSettingsRouter } from "./routes/clickdesk/settings/desk-settings";
+import swaggerUi from 'swagger-ui-express';
+import YAML from 'yamljs';
+import { isProduction } from "./constants/env-const";
 import { webAppUserClient } from "./grpc-app";
 import { logger } from "./logger/logger";
-import { isProduction } from "./constants/env-const";
+import { errorHandler } from "./middlewares/error-handler";
+import { httpLogMiddleware } from "./middlewares/http-log-middleware";
+import { metrics } from "./middlewares/metrics/prometheus-metrics";
+import { adFileRouter } from "./routes/ad-file/ad-file";
+import { adminSettingsRouter } from "./routes/admin-settings";
+import { clickdeskDoctorRouter } from "./routes/clickdesk/doctor/desk-doctor";
+import { clickdeskReasonRouter } from "./routes/clickdesk/reason/desk-reason";
+import { clickdeskSettingsRouter } from "./routes/clickdesk/settings/desk-settings";
+import { currentUserRouter } from "./routes/current-user/current-user";
+import { imagesRouter } from "./routes/images/images";
+import { settingsRouter } from "./routes/settings/settings";
+import { signinRouter } from "./routes/signin/signin";
+import { signoutRouter } from "./routes/signout/signout";
+import { signupRouter } from "./routes/signup";
+import { tokenRouter } from "./routes/token/token";
+import { usersRouter } from "./routes/users";
+import { webAppUsersRouter } from "./routes/web-app-users";
 
 const app = express();
 
@@ -62,7 +63,7 @@ if (process.env.NODE_ENV !== 'test') {
   app.use("/api/swagger", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 }
 app.get('/api/grpc-test', (req, res) => {
-  webAppUserClient.GetWebAppUser({ hsUserId: 'test' }, (err: any, response: any) => {
+  webAppUserClient.GetWebAppUsers({ hsUserId: 'test' }, (err: any, response: any) => {
     if (err) {
       res.status(500).send(err);
     } else {
@@ -77,6 +78,7 @@ app.use("/api/signin", signinRouter);
 app.use("/api/signup", signupRouter);
 app.use("/api/signout", signoutRouter);
 app.use("/api/users", usersRouter);
+app.use("/api/web-app-users", webAppUsersRouter);
 app.use("/api/token", tokenRouter);
 app.use("/api/settings", settingsRouter);
 app.use("/api/admin-settings", adminSettingsRouter);

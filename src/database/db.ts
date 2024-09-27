@@ -1,9 +1,9 @@
-import { loggerError } from "@/logger/logger";
+import { loggerError, loggerHttp } from "@/logger/logger";
 import mongoose from "mongoose";
 
 const connectDB = async () => {
   try {
-    await mongoose.connect(process.env.MONGO_URI!);
+    await mongoose.connect(process.env.MONGO_URI!);    
   } catch (error) {
     loggerError({ errorCode: "MONGODB_CONN", error });
     process.exit(1);
