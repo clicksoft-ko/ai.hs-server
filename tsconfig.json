@@ -21,6 +21,6 @@
       "@/database/*": ["./src/database/*"]
     }
   },
-  "include": ["src/**/*", "@types/**/*.d.ts"],
+  "include": ["src/**/*", "src/**/*.proto", "@types/**/*.d.ts"],
   "exclude": ["node_modules", "src/test/**/*"]
 }
