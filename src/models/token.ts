@@ -1,4 +1,3 @@
-import { db } from "@/database/db";
 import mongoose from "mongoose";
 
 export type TokenType = "changePw";
@@ -38,6 +37,7 @@ tokenSchema.statics.build = (attrs: TokenAttrs) => {
   return new Token(attrs);
 };
 
-const Token = db.model<TokenAttrs, TokenModel>("Token", tokenSchema);
+const Token = mongoose.model<TokenAttrs, TokenModel>("Token", tokenSchema);
 
 export { Token };
+

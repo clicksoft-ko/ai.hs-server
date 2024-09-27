@@ -1,4 +1,3 @@
-import { db } from "@/database/db";
 import mongoose from "mongoose";
 
 interface Feature {
@@ -44,6 +43,7 @@ deskSettingsSchema.statics.build = (attrs: DeskSettingsAttrs) => {
   return new DeskSettings(attrs);
 };
 
-const DeskSettings = db.model<DeskSettingsAttrs, DeskSettingsModel>("DeskSettings", deskSettingsSchema);
+const DeskSettings = mongoose.model<DeskSettingsAttrs, DeskSettingsModel>("DeskSettings", deskSettingsSchema);
 
 export { DeskSettings };
+

@@ -1,18 +1,14 @@
 import { loggerError } from "@/logger/logger";
 import mongoose from "mongoose";
 
-let db: mongoose.Connection;
-
-const connectDB = () => {
+const connectDB = async () => {
   try {
-    db = mongoose.createConnection(process.env.MONGO_URI!);
+    await mongoose.connect(process.env.MONGO_URI!);
   } catch (error) {
     loggerError({ errorCode: "MONGODB_CONN", error });
     process.exit(1);
   }
 };
 
-connectDB();
-
-export { connectDB, db };
+export { connectDB };
 

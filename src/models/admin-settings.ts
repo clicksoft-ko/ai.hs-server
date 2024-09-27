@@ -1,4 +1,3 @@
-import { db } from "@/database/db";
 import mongoose from "mongoose";
 
 export interface AdminSettingsAttrs {
@@ -30,6 +29,7 @@ userSchema.statics.build = (attrs: AdminSettingsAttrs) => {
   return new AdminSettings(attrs);
 };
 
-const AdminSettings = db.model<AdminSettingsAttrs, AdminSettingsModel>("AdminSettings", userSchema);
+const AdminSettings = mongoose.model<AdminSettingsAttrs, AdminSettingsModel>("AdminSettings", userSchema);
 
 export { AdminSettings };
+

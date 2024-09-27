@@ -1,7 +1,6 @@
-import mongoose from "mongoose";
 import bcrypt from "bcrypt";
+import mongoose from "mongoose";
 import { SettingsDoc } from "./settings/settings";
-import { db } from "@/database/db";
 
 export interface UserAttrs {
   userId: string;
@@ -80,6 +79,7 @@ userSchema.statics.build = (attrs: UserAttrs) => {
   return new User(attrs);
 };
 
-const User = db.model<UserAttrs, UserModel>("User", userSchema);
+const User = mongoose.model<UserAttrs, UserModel>("User", userSchema);
 
 export { User };
+
