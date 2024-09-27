@@ -41,7 +41,7 @@ class UsersService {
       roomKey: user.roomKey,
       admin: user.admin,
       orgName: user.orgName,
-      email: user.email,      
+      email: user.email,
       settings: {
         questionnaire: { use: user.settings?.questionnaire?.use },
         webApp: { use: user.settings?.webApp?.use },
