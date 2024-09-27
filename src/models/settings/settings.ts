@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import { ClickDeskSettings, clickDeskSchema } from "./click-desk.schema";
 import { QuestionnaireSettings, questionnaireSchema } from "./questionnaire.schema";
 import { WebAppSettings, webAppSchema } from "./web-app.schema";
+import { db } from "@/database/db";
 
 export interface SettingsAttrs {
   clickDesk?: ClickDeskSettings;
@@ -36,6 +37,6 @@ userSchema.statics.build = (attrs: SettingsAttrs) => {
   return new Settings(attrs);
 };
 
-const Settings = mongoose.model<SettingsAttrs, SettingsModel>("Settings", userSchema);
+const Settings = db.model<SettingsAttrs, SettingsModel>("Settings", userSchema);
 
 export { Settings };

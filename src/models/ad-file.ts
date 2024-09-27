@@ -1,3 +1,4 @@
+import { db } from "@/database/db";
 import mongoose from "mongoose";
 
 export type AdFileType = "image" | 'video';
@@ -37,6 +38,6 @@ adFileSchema.statics.build = (attrs: AdFileAttrs) => {
   return new AdFile(attrs);
 };
 
-const AdFile = mongoose.model<AdFileAttrs, AdFileModel>("AdFile", adFileSchema);
+const AdFile = db.model<AdFileAttrs, AdFileModel>("AdFile", adFileSchema);
 
 export { AdFile };

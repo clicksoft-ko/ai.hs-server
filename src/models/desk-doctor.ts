@@ -1,3 +1,4 @@
+import { db } from "@/database/db";
 import mongoose from "mongoose";
 
 export interface DeskDoctorAttrs {
@@ -90,6 +91,6 @@ deskDoctorSchema.statics.build = (attrs: DeskDoctorAttrs) => {
   return new DeskDoctor(attrs);
 };
 
-const DeskDoctor = mongoose.model<DeskDoctorAttrs, DeskDoctorModel>("DeskDoctor", deskDoctorSchema);
+const DeskDoctor = db.model<DeskDoctorAttrs, DeskDoctorModel>("DeskDoctor", deskDoctorSchema);
 
 export { DeskDoctor };

@@ -1,3 +1,4 @@
+import { db } from "@/database/db";
 import mongoose, { Schema } from "mongoose";
 
 export interface ReasonState extends DeskReasonAttrs {
@@ -55,6 +56,6 @@ reasonSchema.statics.build = (attrs: DeskReasonAttrs) => {
   return new DeskReason(attrs);
 };
 
-const DeskReason = mongoose.model<DeskReasonAttrs, DeskReasonModel>("DeskReason", reasonSchema);
+const DeskReason = db.model<DeskReasonAttrs, DeskReasonModel>("DeskReason", reasonSchema);
 
 export { DeskReason };
