@@ -15,8 +15,16 @@ const packageDefinition = protoLoader.loadSync(PROTO_PATH, {
 const webAppUserProto = grpc.loadPackageDefinition(packageDefinition) as any;
 
 const webAppUserClient = new webAppUserProto.webAppUser.WebAppUserService(
-  isProduction ? "click-app-server-svc.default.svc.cluster.local:5000" : 'localhost:5000',
+  isProduction
+    ? 'click-app-server-svc.default.svc.cluster.local:5000'
+    : 'localhost:5000',
   grpc.credentials.createInsecure()
 );
+
+
+// const webAppUserClient = new webAppUserProto.webAppUser.WebAppUserService(
+//   'hs.click-soft.co.kr',
+//   grpc.credentials.createSsl(),  
+// );
 
 export { webAppUserClient };

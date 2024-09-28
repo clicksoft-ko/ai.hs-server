@@ -4,6 +4,7 @@ package webAppUser;
 
 service WebAppUserService {
   rpc GetWebAppUsers(GetWebAppUsersRequest) returns (GetWebAppUsersResponse); 
+  rpc DeleteWebAppUser(DeleteWebAppUserRequest) returns (WebAppUser);
 }
 
 message GetWebAppUsersRequest {
@@ -15,6 +16,11 @@ message GetWebAppUsersResponse {
 }
 
 message WebAppUser {
-  string csUserId = 1;
-  string name = 2;
+  string id = 1;
+  string csUserId = 2;
+  string name = 3;
+}
+
+message DeleteWebAppUserRequest {
+  string id = 1;
 }

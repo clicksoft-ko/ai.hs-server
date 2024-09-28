@@ -61,17 +61,7 @@ app.get('/api/metrics', metrics.getMetricsEndpoint);
 if (process.env.NODE_ENV !== 'test') {
   const swaggerSpec = YAML.load(path.join(__dirname, './swagger/swagger.yaml'))
   app.use("/api/swagger", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-}
-app.get('/api/grpc-test', (req, res) => {
-  webAppUserClient.GetWebAppUsers({ hsUserId: 'test' }, (err: any, response: any) => {
-    if (err) {
-      res.status(500).send(err);
-    } else {
-      logger.info(response);
-      res.json(response);
-    }
-  });
-});
+} 
 app.use("/api/images", imagesRouter);
 app.use("/api/ad-file", adFileRouter);
 app.use("/api/signin", signinRouter);
