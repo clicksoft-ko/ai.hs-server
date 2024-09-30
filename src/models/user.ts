@@ -13,6 +13,7 @@ export interface UserAttrs {
     type: "Point";
     coordinates: number[];
   };
+  allowedDistance?: number;
   settings?: SettingsDoc;
 }
 
@@ -49,6 +50,7 @@ const userSchema = new mongoose.Schema<UserAttrs, UserModel>(
     admin: { type: Boolean, required: false },
     settings: { type: mongoose.Schema.Types.ObjectId, ref: "Settings" },
     location: { type: locationSchema, required: false },
+    allowedDistance: { type: Number, required: false, default: 500 },
   },
   {
     toJSON: {

@@ -10,6 +10,7 @@ export interface UpdateUserDto {
     lat: number;
     lng: number;
   };
+  allowedDistance?: number;
 }
 
 export const updateUserSchema = Joi.object<UpdateUserDto>({
@@ -20,4 +21,5 @@ export const updateUserSchema = Joi.object<UpdateUserDto>({
     lat: Joi.number().min(-90).max(90).required(),
     lng: Joi.number().min(-180).max(180).required(),
   }),
+  allowedDistance: Joi.number().min(50).max(2_000).optional(),
 })

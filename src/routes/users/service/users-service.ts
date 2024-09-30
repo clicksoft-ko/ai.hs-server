@@ -131,6 +131,9 @@ class UsersService {
         coordinates: [dto.geoLocation.lng, dto.geoLocation.lat]
       }
     }
+    if (dto.allowedDistance) {
+      user.allowedDistance = dto.allowedDistance;
+    }
     await user.save();
 
     return await settingsService.updateSettings(user, { ...dto.settings })

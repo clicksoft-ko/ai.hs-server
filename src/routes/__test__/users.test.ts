@@ -148,6 +148,7 @@ describe(PATH, () => {
         lat: 36.123456,  // 위도는 -90에서 90 사이여야 합니다.
         lng: 127.123456  // 경도는 -180에서 180 사이여야 합니다.
       },
+      allowedDistance: 1000,
       settings: {
         clickDesk: { use: false },
         questionnaire: { use: true, lockPw: "2222" },
@@ -163,6 +164,7 @@ describe(PATH, () => {
     expect(response2.body).toHaveProperty("location");
     expect(response2.body.location.coordinates[0]).toEqual(requestBody2.geoLocation?.lng);
     expect(response2.body.location.coordinates[1]).toEqual(requestBody2.geoLocation?.lat);
+    expect(response2.body.allowedDistance).toEqual(requestBody2.allowedDistance);
   });
 
   it(`사용자 정보 추가 및 삭제`, async () => {
