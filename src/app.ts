@@ -7,8 +7,6 @@ import path from "path";
 import swaggerUi from 'swagger-ui-express';
 import YAML from 'yamljs';
 import { isProduction } from "./constants/env-const";
-import { webAppUserClient } from "./grpc-app";
-import { logger } from "./logger/logger";
 import { errorHandler } from "./middlewares/error-handler";
 import { httpLogMiddleware } from "./middlewares/http-log-middleware";
 import { metrics } from "./middlewares/metrics/prometheus-metrics";
@@ -26,6 +24,7 @@ import { signupRouter } from "./routes/signup";
 import { tokenRouter } from "./routes/token/token";
 import { usersRouter } from "./routes/users";
 import { webAppUsersRouter } from "./routes/web-app-users";
+import { webAppSettingsRouter } from "./routes/web-app/settings";
 
 const app = express();
 
@@ -68,7 +67,8 @@ app.use("/api/signin", signinRouter);
 app.use("/api/signup", signupRouter);
 app.use("/api/signout", signoutRouter);
 app.use("/api/users", usersRouter);
-app.use("/api/web-app-users", webAppUsersRouter);
+app.use("/api/web-app/settings", webAppSettingsRouter);
+app.use("/api/web-app-users", webAppUsersRouter); // GRPC
 app.use("/api/token", tokenRouter);
 app.use("/api/settings", settingsRouter);
 app.use("/api/admin-settings", adminSettingsRouter);
@@ -79,3 +79,4 @@ app.use("/api/clickdesk/settings", clickdeskSettingsRouter);
 app.use(errorHandler);
 
 export { app };
+

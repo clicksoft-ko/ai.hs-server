@@ -1,3 +1,4 @@
+import { isProduction } from "@/constants/env-const";
 import { BadRequestError } from "@/errors/bad-request-error";
 import { Token } from '@/models/token';
 import { User, UserAttrs } from "@/models/user";
@@ -14,7 +15,6 @@ import { ChangePwDto } from "../dto/change-pw.dto";
 import { CheckPasswordDto } from "../dto/check-password.dto";
 import { FindPwDto, FindPwResponseDto } from '../dto/find-pw.dto';
 import { UpdateUserDto } from '../dto/update-user.dto';
-import { isProduction } from "@/constants/env-const";
 
 type UserIdType = { userId: string };
 
@@ -83,7 +83,7 @@ class UsersService {
 
   async changeEmail({ userId, email }: ChangeEmailDto & UserIdType): Promise<UserAttrs> {
     const user = await this.getUser(userId);
-
+    
     user.email = email;
     return user.save();
   }
