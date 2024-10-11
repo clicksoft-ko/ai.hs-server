@@ -2,7 +2,7 @@ import request from 'supertest';
 import { app } from '../../app';
 import { testSignupAndSignin } from '../../test/common';
 import { SaveLockPwDto } from '../settings/dto/save-lock-pw.dto';
-import { UpdateSettingsDto } from '../settings/dto/update-settings.dto';
+
 const PATH = "/api/settings";
 
 describe(PATH, () => {
