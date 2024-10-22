@@ -21,8 +21,7 @@ class WebAppUserService {
       // metadata.add('custom-header', 'customValue');
       webAppUserClient[method](request, metadata, (err: any, response: TResponse) => {
         if (err) {
-          console.log("err: ", err);
-          reject(new GrpcError({ ...err }));
+          reject(new GrpcError({ message: err }));
         } else {
           resolve({ ...response });
         }
