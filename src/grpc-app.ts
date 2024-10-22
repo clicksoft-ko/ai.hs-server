@@ -14,6 +14,7 @@ const packageDefinition = protoLoader.loadSync(PROTO_PATH, {
 
 const webAppUserProto = grpc.loadPackageDefinition(packageDefinition) as any;
 
+console.log("isProduction: ", isProduction);
 const webAppUserClient = new webAppUserProto.webAppUser.WebAppUserService(
   isProduction
     ? 'click-app-server-svc.default.svc.cluster.local:5000'
