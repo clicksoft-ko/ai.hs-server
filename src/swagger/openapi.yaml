@@ -74,4 +74,7 @@ paths:
   # api/users
   /api/users/{userId}/add-svcs:
     $ref: './users/users.yaml#/~1users~1{userId}~1add-svcs'
+
+  /api/common-settings/ad-message:
+    $ref: './common-settings/common-settings.yaml#/~1ad-message'
  

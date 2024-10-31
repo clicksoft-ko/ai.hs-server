@@ -9,7 +9,7 @@ class WebAppUserService {
   async getWebAppUsers(hsUserId: string) {
     return this.CallGrpc<GetWebAppUsersRequest, GetWebAppUsersResponse>("GetWebAppUsers", { hsUserId });
   }
-
+  
   async deleteWebAppUser(id: string) {
     return this.CallGrpc<DeleteWebAppUserRequest, WebAppUser>("DeleteWebAppUser", { id });
   }

@@ -25,6 +25,7 @@ import { tokenRouter } from "./routes/token/token";
 import { usersRouter } from "./routes/users";
 import { webAppUsersRouter } from "./routes/web-app-users";
 import { webAppSettingsRouter } from "./routes/web-app/settings";
+import { commonSettingsRouter } from "./routes/common-settings/common-settings";
 
 const app = express();
 
@@ -60,13 +61,14 @@ app.get('/api/metrics', metrics.getMetricsEndpoint);
 if (process.env.NODE_ENV !== 'test') {
   const swaggerSpec = YAML.load(path.join(__dirname, './swagger/swagger.yaml'))
   app.use("/api/swagger", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-} 
+}
 app.use("/api/images", imagesRouter);
 app.use("/api/ad-file", adFileRouter);
 app.use("/api/signin", signinRouter);
 app.use("/api/signup", signupRouter);
 app.use("/api/signout", signoutRouter);
 app.use("/api/users", usersRouter);
+app.use("/api/common-settings", commonSettingsRouter);
 app.use("/api/web-app/settings", webAppSettingsRouter);
 app.use("/api/web-app-users", webAppUsersRouter); // GRPC
 app.use("/api/token", tokenRouter);
