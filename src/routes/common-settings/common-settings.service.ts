@@ -1,4 +1,4 @@
-import { CommonSettings, CommonSettingsAttrs } from "@/models/common-settings";
+import { CommonSettings } from "@/models/common-settings";
 import { CommonSettingsSaveDto } from "./dto/common-settings-save.dto";
 
 class CommonSettingsService {
