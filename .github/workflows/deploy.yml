@@ -38,24 +38,30 @@ jobs:
         with:
           context: .
           push: true
-          tags: kaburi/hs-server:latest, kaburi/hs-server:${{ github.run_number }}
+          tags: clicksoftkr/hs-server:latest, clicksoftkr/hs-server:${{ github.run_number }}
 
-      - name: Checkout click-helms repository
+      - name: Checkout k8s-update repository
         uses: actions/checkout@v3
         with:
-          repository: KaburiCoder/click-helms
-          token: ${{ secrets.CLICK_HELMS_REPO_TOKEN }} # GitHub 토큰
-          path: .
-          ref: main # 기본 브랜치를 명시적으로 지정 (main이 기본 브랜치일 경우)
+          repository: clicksoft-ko/ai-server-k8s
+          token: ${{ secrets.K8S_UPDATE_TOKEN }}
+          path: ai-server-k8s
+          ref: main
 
-      - name: Update YAML file
+      - name: Install yq (fast)
         run: |
-          sed -i '/hsServer:/,/service:/s/version: ".*"/version: "${{ github.run_number }}"/' hs/values.yaml
+          wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64
+          chmod +x /usr/local/bin/yq
+
+      - name: Update image tag in values.yaml (yq)
+        run: |
+          yq -i '.server.image.version = "${{ github.run_number }}"' ai-server-k8s/projects/hs/values.yaml
 
       - name: Commit and push changes
         run: |
-          git config --global user.name "${{ secrets.USER_NAME }}"
-          git config --global user.email "${{ secrets.USER_EMAIL }}"
-          git add hs/values.yaml
-          git commit -m "Update version to ${{ github.run_number }}"
+          git config --global user.name "ci-cd"
+          git config --global user.email "actions@github.com"
+          cd ai-server-k8s
+          git add projects/hs/values.yaml
+          git commit -m "Update image tag to ${{ github.run_number }}"
           git push
